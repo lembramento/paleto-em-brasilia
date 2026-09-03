@@ -28,7 +28,7 @@ img { display: block; max-width: 100%; }
 /* ---------- TOPBAR / LANG ---------- */
 .topbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: flex-start;
   font-family: var(--mono);
   font-size: 12px;
