@@ -52,6 +52,115 @@
     if (archiveSection) archiveSection.remove();
   }
 
+  var channelEl = document.querySelector("[data-youtube-channel]");
+  if (channelEl) {
+    if (CONFIG.youtubeChannelUrl) channelEl.href = CONFIG.youtubeChannelUrl;
+    else channelEl.classList.remove("archive-channel");
+  }
+
+  // ---------- PRONUNCIAMENTOS (lista + player sob demanda) ----------
+  function buildArchiveRows() {
+    var list = document.querySelector("[data-archive-list]");
+    if (!list) return;
+
+    var items = CONFIG.pronunciamentos || [];
+    items.forEach(function (item, i) {
+      var hasVideo = !!item.youtubeId;
+
+      var row = document.createElement("div");
+      row.className = "archive-row" + (hasVideo ? "" : " last");
+      if (i === items.length - 1) row.classList.add("is-last-item");
+
+      var num = document.createElement("span");
+      num.className = "archive-num";
+      num.textContent = item.numero || "";
+
+      var quote = document.createElement("span");
+      quote.className = "archive-quote";
+      if (item.pt) quote.dataset.pt = item.pt;
+      if (item.en) quote.dataset.en = item.en;
+
+      var time = document.createElement("span");
+      time.className = "archive-time";
+      time.textContent = item.duracao || "--:--";
+
+      var play = document.createElement("span");
+      play.className = "archive-play";
+      play.textContent = hasVideo ? "▶" : "✕";
+
+      row.appendChild(num);
+      row.appendChild(quote);
+      row.appendChild(time);
+      row.appendChild(play);
+      list.appendChild(row);
+
+      if (!hasVideo) return;
+
+      var player = document.createElement("div");
+      player.className = "archive-player";
+      player.hidden = true;
+      list.appendChild(player);
+
+      row.setAttribute("role", "button");
+      row.tabIndex = 0;
+
+      function toggle() {
+        if (player.hidden) {
+          player.hidden = false;
+          play.textContent = "▬";
+          if (!player.firstChild) mountThumb(player, item);
+        } else {
+          player.hidden = true;
+          play.textContent = "▶";
+          player.innerHTML = "";
+        }
+      }
+
+      row.addEventListener("click", toggle);
+      row.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+      });
+    });
+  }
+
+  function mountThumb(container, item) {
+    var thumb = document.createElement("button");
+    thumb.type = "button";
+    thumb.className = "archive-thumb";
+    thumb.setAttribute("aria-label", "Play");
+
+    var img = document.createElement("img");
+    img.loading = "lazy";
+    img.alt = "";
+    img.src = "https://i.ytimg.com/vi/" + item.youtubeId + "/maxresdefault.jpg";
+    img.addEventListener("error", function () {
+      img.src = "https://i.ytimg.com/vi/" + item.youtubeId + "/hqdefault.jpg";
+    });
+
+    var badge = document.createElement("span");
+    badge.className = "archive-thumb-play";
+    badge.textContent = "▶";
+
+    thumb.appendChild(img);
+    thumb.appendChild(badge);
+    container.appendChild(thumb);
+
+    thumb.addEventListener("click", function () {
+      var frame = document.createElement("iframe");
+      frame.className = "archive-iframe";
+      frame.src = "https://www.youtube-nocookie.com/embed/" + item.youtubeId +
+        "?autoplay=1&rel=0&modestbranding=1";
+      frame.title = item.pt || "";
+      frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      frame.allowFullscreen = true;
+      container.innerHTML = "";
+      container.appendChild(frame);
+    });
+  }
+
+  buildArchiveRows();
+  applyLang(state.lang);
+
   // ---------- ENVIO PARA MAILERLITE (sem sair da página) ----------
   function submitEmailToMailerLite(email) {
     var action = CONFIG.mailerlite && CONFIG.mailerlite.action;
