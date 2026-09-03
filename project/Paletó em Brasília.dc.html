@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; background:#0a0a0b; color:#e8e8e6; font-family:Archivo, Helvetica, sans-serif; }
+  a { color:#6D8CFF; }
+  a:hover { color:#ffffff; }
+  ::selection { background:#1E4FFF; color:#fff; }
+  input::placeholder { color:rgba(255,255,255,.45); }
+</style>
+</helmet>
+
+<div style="position:relative; background:#000">
+
+  <!-- HERO -->
+  <div style="position:relative; height:100vh; min-height:560px; max-height:900px; background:#000">
+    <img src="img/noir-7.jpeg" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 42%; opacity:.92">
+    <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.75) 0%, rgba(0,0,0,.15) 35%, rgba(0,0,0,.9) 100%)"></div>
+
+    <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:space-between; padding:34px 44px 48px">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.62)">
+        <span data-en="paletoembrasilia.com.br">paletoembrasilia.com.br</span>
+        <div style="display:flex; gap:10px; align-items:center">
+          <button onClick="{{ setPt }}" style="background:none; border:none; padding:0; cursor:pointer; font:inherit; letter-spacing:.18em; color:#fff">PT</button>
+          <span style="color:rgba(255,255,255,.3)">·</span>
+          <button onClick="{{ setEn }}" style="background:none; border:none; padding:0; cursor:pointer; font:inherit; letter-spacing:.18em; color:rgba(255,255,255,.55)">EN</button>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:22px">
+        <div data-en="Three singles. September, October, November." style="font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.7)">UMA BANDA. TRÊS SINGLES. SETEMBRO, OUTUBRO, NOVEMBRO.</div>
+        <h1 style="margin:0; font-family:Archivo; font-weight:900; font-size:min(132px,12vw,15vh); line-height:.86; letter-spacing:-.045em; text-transform:uppercase; color:#f2f2ef; max-width:14ch">Paletó em Brasília</h1>
+        <div style="display:flex; gap:32px; align-items:center; font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.55); flex-shrink:0">
+          <span data-en="Scroll">ROLE A PÁGINA.&nbsp;</span>
+          <span style="width:120px; height:1px; background:rgba(255,255,255,.35)"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FALA DO ARTICULISTA -->
+  <div style="padding:130px 44px; background:#050505; border-top:1px solid #151513">
+    <div style="max-width:1000px; display:flex; flex-direction:column; gap:34px">
+      <p data-en="&ldquo;I confirm that a material exists.&rdquo;" style="margin:0; font-family:Archivo; font-weight:800; font-size:clamp(34px,6vw,64px); line-height:1.02; letter-spacing:-.03em; color:#e8e8e6; text-wrap:pretty">"Confirmo que existe um material."</p>
+      <div style="display:flex; gap:18px; align-items:center; font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:#6a6a66">
+        <span style="width:52px; height:1px; background:#3a3a36"></span>
+        <span data-en="Statement no. 2 — the Articulator">Pronunciamento nº 2 — o Articulista</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SINGLE -->
+  <div style="padding:110px 44px; background:#0a0a0a; border-top:1px solid #151513; display:grid; grid-template-columns:420px 1fr; gap:70px; align-items:center">
+    <img src="img/capa-do-meio-ao-fim.jpg" alt="Capa do single" style="width:420px; height:420px; object-fit:cover; border:1px solid #1e1e1c">
+    <div style="display:flex; flex-direction:column; gap:26px">
+      <div data-en="Single 01" style="font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:.2em; text-transform:uppercase; color:#6a6a66">Single 01</div>
+      <h2 style="margin:0; font-family:Archivo; font-weight:900; font-size:78px; line-height:.92; letter-spacing:-.04em; text-transform:uppercase; color:#f2f2ef">Do meio ao fim</h2>
+      <div style="display:grid; grid-template-columns:170px 1fr; gap:0 20px; font-family:'IBM Plex Mono',monospace; font-size:14px; color:#b4b4b0; letter-spacing:.04em; margin-top:4px">
+        <span data-en="Release" style="color:#5a5a54; padding:14px 0; border-top:1px solid #1b1b19">Lançamento</span>
+        <span style="padding:14px 0; border-top:1px solid #1b1b19">11.09.2026</span>
+        <span data-en="Format" style="color:#5a5a54; padding:14px 0; border-top:1px solid #1b1b19">Formato</span>
+        <span data-en="Digital single" style="padding:14px 0; border-top:1px solid #1b1b19">Single digital</span>
+        <span data-en="Next" style="color:#5a5a54; padding:14px 0; border-top:1px solid #1b1b19; border-bottom:1px solid #1b1b19">A seguir</span>
+        <span data-en="Two more singles until November" style="padding:14px 0; border-top:1px solid #1b1b19; border-bottom:1px solid #1b1b19">Dois singles até novembro</span>
+      </div>
+      <button onClick="{{ abrirIntimacao }}" style="align-self:flex-start; margin-top:20px; border:none; cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:.2em; text-transform:uppercase; color:#000; background:#f2f2ef; padding:20px 40px" style-hover="background:#6D8CFF; color:#000">
+        <span data-en="Receive the summons.">Receba a intimação.</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ARQUIVO -->
+  <sc-if value="{{ mostrarArquivo }}" hint-placeholder-val="{{ true }}">
+  <div style="padding:110px 44px 120px; background:#050505; border-top:1px solid #151513">
+    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:52px">
+      <h3 data-en="Statements" style="margin:0; font-family:Archivo; font-weight:900; font-size:40px; letter-spacing:-.03em; text-transform:uppercase; color:#f2f2ef">Pronunciamentos</h3>
+      <span data-en="Public archive" style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#6a6a66">Arquivo público</span>
+    </div>
+
+    <div style="display:flex; flex-direction:column">
+      <div style="display:grid; grid-template-columns:120px 1fr 110px 44px; gap:28px; align-items:center; padding:30px 6px; border-top:1px solid #1b1b19; cursor:pointer" style-hover="background:#0d0d0c">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:.14em; color:#6a6a66">Nº 1</span>
+        <span data-en="&ldquo;A consensus has been reached.&rdquo;" style="font-family:Archivo; font-weight:600; font-size:26px; letter-spacing:-.02em; color:#dededa">"Chegou-se a um consenso."</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#6a6a66">00:28</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:15px; color:#f2f2ef; text-align:right">▶</span>
+      </div>
+      <div style="display:grid; grid-template-columns:120px 1fr 110px 44px; gap:28px; align-items:center; padding:30px 6px; border-top:1px solid #1b1b19; cursor:pointer" style-hover="background:#0d0d0c">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:.14em; color:#6a6a66">Nº 2</span>
+        <span data-en="&ldquo;There will be three.&rdquo;" style="font-family:Archivo; font-weight:600; font-size:26px; letter-spacing:-.02em; color:#dededa">"Serão três."</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#6a6a66">00:30</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:15px; color:#f2f2ef; text-align:right">▶</span>
+      </div>
+      <div style="display:grid; grid-template-columns:120px 1fr 110px 44px; gap:28px; align-items:center; padding:30px 6px; border-top:1px solid #1b1b19; border-bottom:1px solid #1b1b19">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:.14em; color:#3f3f3c">Nº 3</span>
+        <span data-en="Record sealed." style="font-family:Archivo; font-weight:600; font-size:26px; letter-spacing:-.02em; color:#3f3f3c">Registro selado.</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#3f3f3c">--:--</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#3f3f3c; text-align:right">✕</span>
+      </div>
+    </div>
+
+    <p data-en="Content generated by artificial intelligence." style="margin:26px 0 0; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.1em; color:#4a4a46">Cuidado. Conteúdo gerado por inteligência artificial.</p>
+  </div>
+  </sc-if>
+
+  <!-- AZUL: A BANDA + E-MAIL -->
+  <div style="background:#0B23C8; border-top:1px solid #151513; display:grid; grid-template-columns:560px 1fr; align-items:stretch">
+    <div style="position:relative; overflow:hidden; min-height:600px">
+      <img src="img/banda.png" alt="Paletó em Brasília" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 20%; mix-blend-mode:luminosity; opacity:.95">
+      <div style="position:absolute; inset:0; background:linear-gradient(270deg, rgba(11,35,200,.55) 0%, rgba(11,35,200,0) 60%)"></div>
+    </div>
+    <div style="padding:100px 56px; display:flex; flex-direction:column; gap:28px; justify-content:center">
+      <div data-en="The band" style="font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:.2em; text-transform:uppercase; color:#c3ccff">A banda</div>
+      <h3 data-en="Sign below." style="margin:0; font-family:Archivo; font-weight:900; font-size:66px; line-height:.94; letter-spacing:-.04em; color:#fff; max-width:20ch; text-wrap:pretty">Assine embaixo.</h3>
+      <p data-en="Your name goes on the record. You are notified when there is music — nothing else." style="margin:0; max-width:42ch; font-size:19px; line-height:1.5; color:#d5dcff; text-wrap:pretty">Seu nome fica nos autos. Você é notificado quando tiver música.</p>
+      <form onSubmit="{{ onSubmit }}" style="display:flex; flex-direction:column; gap:14px; margin-top:12px; max-width:520px">
+        <div style="display:flex">
+          <input type="email" required="required" placeholder="seu@email.com" style="flex:1; background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.4); border-right:none; color:#fff; padding:20px 22px; font-family:'IBM Plex Mono',monospace; font-size:15px; outline:none" style-focus="border-color:#fff; background:rgba(0,0,0,.4)">
+          <button type="submit" style="background:#000; border:1px solid #000; color:#fff; padding:20px 34px; font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:.18em; text-transform:uppercase; cursor:pointer" style-hover="background:#fff; color:#0B23C8; border-color:#fff">
+            <span data-en="Sign">Assinar</span>
+          </button>
+        </div>
+        <div style="min-height:20px; font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffffff">{{ msgA }}</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="padding:56px 44px; background:#000; border-top:1px solid #151513; display:flex; justify-content:space-between; align-items:center; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#5a5a56">
+    <div style="display:flex; align-items:center; gap:18px">
+      <span>Paletó em Brasília — 2026</span>
+      <a href="{{ pressReleaseUrl }}" download="" data-en="press" style="color:#2e2e2a; text-decoration:none; letter-spacing:.14em" style-hover="color:#5a5a56">imprensa</a>
+    </div>
+    <div style="display:flex; gap:28px">
+      <a href="{{ instagramUrl }}" style="color:#5a5a56; text-decoration:none" style-hover="color:#f2f2ef">Instagram</a>
+      <a href="{{ preSaveUrl }}" style="color:#5a5a56; text-decoration:none" style-hover="color:#f2f2ef">Spotify</a>
+    </div>
+  </div>
+
+  <!-- FLUXO: RECEBA A INTIMAÇÃO -->
+  <sc-if value="{{ intimacaoAberta }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed; inset:0; background:rgba(0,0,0,.9); display:flex; align-items:center; justify-content:center; z-index:60; padding:24px">
+    <div style="position:relative; width:900px; max-width:100%; background:#0B23C8; border:1px solid rgba(255,255,255,.25); display:grid; grid-template-columns:1fr; overflow:hidden; max-height:92vh; overflow-y:auto">
+      <button onClick="{{ fecharIntimacao }}" style="position:absolute; top:18px; right:20px; z-index:2; background:none; border:none; cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:16px; color:rgba(255,255,255,.6); padding:6px" style-hover="color:#fff">✕</button>
+
+      <sc-if value="{{ etapaEmail }}" hint-placeholder-val="{{ false }}">
+      <div style="width:640px; max-width:100%; margin:0 auto; padding:52px 24px 46px; display:flex; flex-direction:column; gap:24px">
+        <div data-en="Summons no. 001/2026 — step 1 of 2" style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#c3ccff">Intimação nº 001/2026 — etapa 1 de 2</div>
+        <h4 data-en="First, your e-mail." style="margin:0; font-family:Archivo; font-weight:900; font-size:46px; line-height:.98; letter-spacing:-.035em; color:#fff">Primeiro, o seu e-mail.</h4>
+        <p data-en="Two steps. This one is painless." style="margin:0; font-size:18px; line-height:1.5; color:#d5dcff; max-width:40ch">Não custa nada.</p>
+        <form onSubmit="{{ onSubmitIntimacao }}" style="display:flex; flex-direction:column; gap:14px; margin-top:4px">
+          <div style="display:flex">
+            <input type="email" required="required" placeholder="seu@email.com" style="flex:1; background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.4); border-right:none; color:#fff; padding:20px 22px; font-family:'IBM Plex Mono',monospace; font-size:15px; outline:none" style-focus="border-color:#fff; background:rgba(0,0,0,.4)">
+            <button type="submit" style="background:#000; border:1px solid #000; color:#fff; padding:20px 34px; font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:.18em; text-transform:uppercase; cursor:pointer" style-hover="background:#fff; color:#0B23C8; border-color:#fff">
+              <span data-en="Proceed">Prosseguir</span>
+            </button>
+          </div>
+        </form>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ etapaPreSave }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid; grid-template-columns:340px 1fr; background:#050505">
+        <div style="position:relative; min-height:100%">
+          <img src="img/articulista-gabinete.jpg" alt="O Articulista" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 20%">
+          <div style="position:absolute; inset:0; background:linear-gradient(90deg, rgba(0,0,0,0) 60%, #050505 100%)"></div>
+        </div>
+        <div style="padding:52px 48px 46px; display:flex; flex-direction:column; gap:20px">
+          <h4 data-en="An understanding has been reached." style="margin:0; font-family:Archivo; font-weight:900; font-size:38px; line-height:1.02; letter-spacing:-.03em; color:#f2f2ef">Perfeito. Só mais uma coisa...</h4>
+          <p data-en="My friends. It came to my attention that your e-mail was recorded, and I want you to know this was noted with great sensibility, at the highest level. Now a second gesture is required of you — small, almost nothing, twenty seconds, no more. They call it &ldquo;pre-save.&rdquo; I call it the sitting of the table." style="margin:0; font-size:16px; line-height:1.55; color:#b4b4b0; text-wrap:pretty">&nbsp;Um segundo gesto bondoso é requerido da sua parte. Chamam de "pré-save". Eu chamo de <i>sentar-se à mesa</i>.</p>
+          <p data-en="It works like this: you authorise, on your own streaming service, an application you have never heard of before. This was not my design. But I can tell you, with the moral authority the moment demands, that it is for the good of the process." style="margin:0; font-size:16px; line-height:1.55; color:#b4b4b0; text-wrap:pretty">Funciona assim: você autoriza, no seu próprio streaming, um aplicativo que jamais ouviu falar antes. Isso não foi articulação minha. Mas posso lhe dizer, com a autoridade moral que o momento exige, que é para o bem do processo geral.</p>
+          <div style="display:flex; align-items:center; gap:26px; margin-top:6px; flex-wrap:wrap">
+            <a href="{{ preSaveUrl }}" target="_blank" rel="noopener" onClick="{{ cumprirIntimacao }}" style="text-decoration:none; background:#f2f2ef; color:#000; padding:18px 36px; font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:.18em; text-transform:uppercase" style-hover="background:#6D8CFF; color:#000">
+              <span data-en="Sit at the table">Sentar à mesa</span>
+            </a>
+            <button onClick="{{ fecharIntimacao }}" style="background:none; border:none; cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#6a6a66; text-decoration:underline; padding:0" style-hover="color:#f2f2ef">
+              <span data-en="Withdraw the negotiation">Retirar a tratativa</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ etapaFim }}" hint-placeholder-val="{{ false }}">
+      <div style="width:640px; max-width:100%; margin:0 auto; padding:52px 24px 46px; display:flex; flex-direction:column; gap:24px">
+        <div data-en="Case closed" style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#c3ccff">Processo encerrado</div>
+        <h4 data-en="Summons complied with." style="margin:0; font-family:Archivo; font-weight:900; font-size:46px; line-height:.98; letter-spacing:-.035em; color:#fff">Intimação cumprida.</h4>
+        <p data-en="Your name is on the record. Nothing else will be asked of you until 11.09.2026." style="margin:0; font-size:18px; line-height:1.55; color:#d5dcff; max-width:44ch; text-wrap:pretty">Seu nome está nos autos. Nada mais será exigido de você até 11.09.2026.</p>
+        <button onClick="{{ fecharIntimacao }}" style="align-self:flex-start; margin-top:6px; background:#000; border:1px solid #000; color:#fff; padding:20px 40px; font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:.18em; text-transform:uppercase; cursor:pointer" style-hover="background:#fff; color:#0B23C8; border-color:#fff">
+          <span data-en="Close">Encerrar</span>
+        </button>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;preSaveUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://release.landr.com/991048912632&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Links&quot;},&quot;instagramUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://instagram.com/&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Links&quot;},&quot;pressReleaseUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Links&quot;},&quot;mostrarArquivo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Seções&quot;}}">
+class Component extends DCLogic {
+  state = { msgA: "", lang: "pt", etapa: null };
+
+  setLang(lang) {
+    if (this.state.lang === lang) return;
+    this.applyLang(lang);
+    this.setState({ lang });
+  }
+
+  applyLang(lang) {
+    const root = this.el || document;
+    root.querySelectorAll("[data-en]").forEach(node => {
+      if (!node.dataset.pt) node.dataset.pt = node.innerHTML;
+      node.innerHTML = lang === "en" ? node.dataset.en : node.dataset.pt;
+    });
+  }
+
+  componentDidMount() {
+    this.el = document.querySelector("x-dc") || document;
+  }
+
+  componentDidUpdate() {
+    if (this.state.lang === "en") this.applyLang("en");
+  }
+
+  submit(key, e) {
+    e.preventDefault();
+    const msg = this.state.lang === "en"
+      ? "Recorded. Nothing else will be said."
+      : "Registrado. Nada mais será dito.";
+    this.setState({ [key]: msg });
+    e.target.reset();
+  }
+
+  renderVals() {
+    return {
+      msgA: this.state.msgA,
+      preSaveUrl: this.props.preSaveUrl ?? "https://release.landr.com/991048912632",
+      instagramUrl: this.props.instagramUrl ?? "https://instagram.com/",
+      pressReleaseUrl: this.props.pressReleaseUrl ?? "#",
+      mostrarArquivo: this.props.mostrarArquivo ?? true,
+      setPt: () => this.setLang("pt"),
+      setEn: () => this.setLang("en"),
+      onSubmit: (e) => this.submit("msgA", e),
+      intimacaoAberta: this.state.etapa !== null,
+      etapaEmail: this.state.etapa === "email",
+      etapaPreSave: this.state.etapa === "presave",
+      etapaFim: this.state.etapa === "fim",
+      abrirIntimacao: () => this.setState({ etapa: "email" }),
+      fecharIntimacao: () => this.setState({ etapa: null }),
+      cumprirIntimacao: () => this.setState({ etapa: "fim" }),
+      onSubmitIntimacao: (e) => { e.preventDefault(); this.setState({ etapa: "presave" }); }
+    };
+  }
+}
+
+</script>
+</body>
+</html>
