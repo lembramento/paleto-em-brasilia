@@ -154,6 +154,8 @@ img { display: block; }
 /* ---------- 03 · AS MÚSICAS ---------- */
 .slide-songs { display: flex; flex-direction: column; justify-content: center; gap: 56px; padding: 96px 120px; }
 
+.songs-heading { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+
 .songs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px; }
 
 .song { display: flex; flex-direction: column; gap: 22px; border-top: 1px solid var(--border-on-dark); padding-top: 32px; }
