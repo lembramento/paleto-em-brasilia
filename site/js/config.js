@@ -6,8 +6,8 @@ window.SITE_CONFIG = {
   // Perfil do Instagram da banda
   instagramUrl: "https://instagram.com/",
 
-  // URL do PDF do press release (link discreto no rodapé). "#" = link inativo.
-  pressReleaseUrl: "#",
+  // Link da apresentação para parceiros e imprensa (link discreto no rodapé). "#" = link inativo.
+  pressReleaseUrl: "imprensa.html",
 
   // Mostrar ou não a seção "Pronunciamentos"
   mostrarArquivo: true,
