@@ -116,7 +116,9 @@ img { display: block; }
 
 .cover-tags { display: flex; gap: 48px; font-size: 24px; letter-spacing: 0.1em; color: var(--muted-on-dark); text-transform: uppercase; }
 
-.cover-pdf-btn {
+.btn-row { display: flex; flex-wrap: wrap; gap: 20px; }
+
+.btn-outline {
   align-self: flex-start;
   display: inline-flex;
   align-items: center;
@@ -129,8 +131,8 @@ img { display: block; }
   text-transform: uppercase;
   text-decoration: none;
 }
-.cover-pdf-btn:hover { border-color: var(--blue-bright); color: var(--blue-bright); }
-.cover-pdf-btn svg { width: 20px; height: 20px; flex: 0 0 auto; }
+.btn-outline:hover { border-color: var(--blue-bright); color: var(--blue-bright); }
+.btn-outline svg { width: 20px; height: 20px; flex: 0 0 auto; }
 
 .cover-art { position: relative; }
 .cover-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; }
@@ -337,5 +339,5 @@ img { display: block; }
     break-after: page;
   }
   .slide:last-child { page-break-after: auto; break-after: auto; }
-  .deck-nav, .cover-pdf-btn { display: none !important; }
+  .deck-nav, .btn-outline { display: none !important; }
 }
