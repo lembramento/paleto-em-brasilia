@@ -212,8 +212,7 @@ img { display: block; }
 .timeline-date { font-size: 30px; letter-spacing: 0.06em; color: var(--muted-on-paper); }
 .timeline-item-accent .timeline-date { color: var(--blue); }
 .timeline-dot { height: 24px; display: flex; align-items: center; }
-.timeline-dot span { width: 22px; height: 22px; border-radius: 50%; background: var(--ink-dark); }
-.timeline-item-accent .timeline-dot span { background: var(--blue); }
+.timeline-dot span { width: 22px; height: 22px; border-radius: 50%; background: var(--blue); }
 .timeline-item h3 { margin: 0; font-family: var(--sans); font-weight: 700; font-size: 40px; line-height: 1.05; text-transform: uppercase; }
 .timeline-item-accent h3 { color: var(--blue); }
 .timeline-item p { margin: 0; font-size: 28px; line-height: 1.35; color: var(--body-on-paper); }
