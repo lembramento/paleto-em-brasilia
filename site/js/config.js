@@ -16,31 +16,35 @@ window.SITE_CONFIG = {
   youtubeChannelUrl: "https://youtube.com/@paletoembrasilia.oficial",
 
   // Pronunciamentos. Para ativar uma linha, cole o ID do vídeo do YouTube em
-  // "youtubeId" — é o trecho de 11 caracteres depois de "watch?v=" na URL
-  // (ex.: https://www.youtube.com/watch?v=dQw4w9WgXcQ → "dQw4w9WgXcQ").
+  // "youtubeId" — é o trecho de 11 caracteres depois de "watch?v=" (vídeo
+  // normal) ou de "/shorts/" (Short) na URL.
   // Linha com ID vira clicável e abre o player ali mesmo; linha sem ID fica
   // no estado "selado" (apagada, sem botão de play).
+  // "vertical: true" para Shorts (proporção 9:16); omita para vídeo 16:9.
   pronunciamentos: [
     {
       numero: "Nº 1",
       pt: "&ldquo;Chegou-se a um consenso.&rdquo;",
       en: "&ldquo;A consensus has been reached.&rdquo;",
-      duracao: "00:28",
-      youtubeId: "",
+      duracao: "—",
+      youtubeId: "VrldpRqUGf0",
+      vertical: true,
     },
     {
       numero: "Nº 2",
       pt: "&ldquo;Serão três.&rdquo;",
       en: "&ldquo;There will be three.&rdquo;",
-      duracao: "00:30",
-      youtubeId: "",
+      duracao: "—",
+      youtubeId: "F6vwOhpka2M",
+      vertical: true,
     },
     {
       numero: "Nº 3",
       pt: "Registro selado.",
       en: "Record sealed.",
-      duracao: "--:--",
-      youtubeId: "",
+      duracao: "—",
+      youtubeId: "dYAHoWspIgs",
+      vertical: true,
     },
   ],
 

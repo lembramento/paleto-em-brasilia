@@ -97,7 +97,7 @@
       if (!hasVideo) return;
 
       var player = document.createElement("div");
-      player.className = "archive-player";
+      player.className = "archive-player" + (item.vertical ? " is-vertical" : "");
       player.hidden = true;
       list.appendChild(player);
 

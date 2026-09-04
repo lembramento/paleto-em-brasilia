@@ -336,6 +336,13 @@ img { display: block; max-width: 100%; }
   background: #000;
 }
 
+/* Shorts — vídeo vertical */
+.archive-player.is-vertical .archive-thumb,
+.archive-player.is-vertical .archive-iframe {
+  aspect-ratio: 9 / 16;
+  max-width: 340px;
+}
+
 /* ---------- AZUL: A BANDA + E-MAIL ---------- */
 .band {
   background: var(--blue);
