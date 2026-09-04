@@ -28,14 +28,24 @@ img { display: block; max-width: 100%; }
 /* ---------- TOPBAR / LANG ---------- */
 .topbar {
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: center;
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: .18em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, .62);
 }
+
+.brand {
+  display: inline-flex;
+  color: rgba(255, 255, 255, .82);
+  transition: color .15s ease;
+}
+
+.brand:hover { color: #fff; }
+
+.brand-mark { height: 42px; width: auto; display: block; }
 
 .lang-switch { display: flex; gap: 10px; align-items: center; }
 
@@ -638,6 +648,7 @@ img { display: block; max-width: 100%; }
 
 @media (max-width: 640px) {
   .hero-content, .statement, .archive, .footer { padding-left: 24px; padding-right: 24px; }
+  .brand-mark { height: 26px; }
   .statement { padding-top: 90px; padding-bottom: 90px; }
   .single-title { font-size: 52px; }
   .band-title { font-size: 44px; }
