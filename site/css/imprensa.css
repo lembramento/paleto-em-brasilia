@@ -157,7 +157,7 @@ img { display: block; }
 .songs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px; }
 
 .song { display: flex; flex-direction: column; gap: 22px; border-top: 1px solid var(--border-on-dark); padding-top: 32px; }
-.song-num { font-family: var(--sans); font-weight: 800; font-size: 96px; line-height: 1; color: #2C2A26; }
+.song-num { font-family: var(--sans); font-weight: 800; font-size: 96px; line-height: 1; color: var(--blue-bright); }
 .song h3 { margin: 0; font-family: var(--sans); font-weight: 700; font-size: 44px; line-height: 1.05; text-transform: uppercase; letter-spacing: -0.01em; }
 .song p { margin: 0; font-size: 30px; line-height: 1.35; color: var(--body-on-dark); text-wrap: pretty; }
 .song-meta { margin-top: auto; font-size: 24px; line-height: 1.6; color: var(--muted-on-dark); }
@@ -204,7 +204,7 @@ img { display: block; }
 .slide-calendar { display: flex; flex-direction: column; justify-content: center; gap: 72px; padding: 96px 120px; }
 
 .timeline { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
-.timeline-rule { position: absolute; left: 0; right: 0; top: 118px; height: 1px; background: var(--border-on-paper); }
+.timeline-rule { position: absolute; left: 0; right: 0; top: 118px; height: 2px; background: var(--blue); z-index: 0; }
 
 .timeline-item { position: relative; display: flex; flex-direction: column; gap: 24px; }
 .timeline-date { font-size: 30px; letter-spacing: 0.06em; color: var(--muted-on-paper); }

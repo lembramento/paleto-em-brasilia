@@ -71,6 +71,28 @@
   window.addEventListener("resize", fit);
   fit();
 
+  // Align the timeline rule (slide 6) so it passes through the dot
+  // centers instead of a hand-tuned pixel offset — robust to font
+  // metric differences and independent of the deck's --deck-scale.
+  function positionTimelineRule() {
+    var timeline = document.querySelector(".timeline");
+    var rule = document.querySelector(".timeline-rule");
+    var dot = timeline && timeline.querySelector(".timeline-dot span");
+    if (!timeline || !rule || !dot) return;
+    var top = 0;
+    var el = dot;
+    while (el && el !== timeline) {
+      top += el.offsetTop;
+      el = el.offsetParent;
+    }
+    rule.style.top = (top + dot.offsetHeight / 2) + "px";
+  }
+
+  positionTimelineRule();
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(positionTimelineRule).catch(function () {});
+  }
+
   var startIndex = 0;
   var hash = window.location.hash.match(/^#slide-(\d+)$/);
   if (hash) startIndex = clamp(parseInt(hash[1], 10) - 1, 0, slides.length - 1);
