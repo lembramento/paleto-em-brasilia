@@ -122,9 +122,10 @@ img { display: block; max-width: 100%; }
    lateral precisa ser repetida aqui para o box alinhar com o resto da capa. */
 .release-box {
   position: absolute;
-  right: 44px;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 100px;
+  /* Alinha a base do box com a base do título: 48px de padding inferior da
+     capa + a linha do "role a página" + o gap entre ela e o título. */
+  bottom: calc(48px + 17px + 22px);
   width: 380px;
   max-width: 100%;
   background: rgba(6, 6, 6, .78);
@@ -226,6 +227,23 @@ img { display: block; max-width: 100%; }
   background: #f2f2ef;
   border-color: #f2f2ef;
   color: #000;
+}
+
+/* Enquanto o box flutua na lateral, o título não pode invadir a faixa dele */
+@media (min-width: 1401px) {
+  .hero-bottom { max-width: calc(100% - 540px); }
+}
+
+/* Abaixo disso o box não cabe ao lado do título sem encostar nele:
+   sai da lateral e entra no fluxo, logo abaixo do nome da banda. */
+@media (max-width: 1400px) {
+  .hero { height: auto; min-height: 100vh; max-height: none; }
+  .hero-content { position: relative; inset: auto; gap: 30px; }
+  .release-box {
+    position: static;
+    width: 100%;
+    max-width: 420px;
+  }
 }
 
 .hero-scroll {
