@@ -61,9 +61,38 @@
     if (archiveSection) archiveSection.remove();
   }
 
-  // ---------- LANÇAMENTO: tarja da capa + fase do fluxo ----------
-  document.querySelectorAll(".presave-fase").forEach(function (el) {
+  // ---------- LANÇAMENTO ----------
+  // Todo elemento marcado com data-fase só aparece na fase correspondente.
+  // É o que converte a página inteira de "vai sair" para "já saiu": tarja da
+  // capa, fala do Articulista, botões do single e os textos do fluxo.
+  document.querySelectorAll("[data-fase]").forEach(function (el) {
     el.hidden = el.dataset.fase !== FASE;
+  });
+
+  // Ficha do single — tudo vem do config, para o próximo lançamento ser só
+  // uma edição aqui, sem tocar em HTML.
+  function setTexto(sel, valor) {
+    var el = document.querySelector(sel);
+    if (!el || !valor) return;
+    if (typeof valor === "string") { el.textContent = valor; return; }
+    if (valor.pt) el.dataset.pt = valor.pt;
+    if (valor.en) el.dataset.en = valor.en;
+  }
+
+  setTexto("[data-single-numero]", LANC.numero);
+  setTexto("[data-single-titulo]", LANC.titulo);
+  setTexto("[data-single-data]", LANC.data);
+  setTexto("[data-single-formato]", LANC.formato);
+  setTexto("[data-single-aseguir]", LANC.aSeguir);
+
+  var capaEl = document.querySelector("[data-single-capa]");
+  if (capaEl && LANC.capa) capaEl.src = LANC.capa;
+
+  var capaOuvir = document.querySelector(".ouvir-capa img");
+  if (capaOuvir && LANC.capa) capaOuvir.src = LANC.capa;
+
+  document.querySelectorAll("[data-release-cta]").forEach(function (el) {
+    el.href = destinoLancamento;
   });
 
   function buildRelease() {
@@ -73,9 +102,6 @@
 
     var titulo = strip.querySelector("[data-release-titulo]");
     if (titulo) titulo.textContent = LANC.titulo || "";
-
-    var cta = strip.querySelector("[data-release-cta]");
-    if (cta) cta.href = LANC.smartLink;
 
     var lista = strip.querySelector("[data-release-links]");
     if (lista) {
@@ -94,6 +120,67 @@
   }
 
   buildRelease();
+
+  // Painel "Ouvir em": lista as plataformas sem tirar o visitante do site.
+  // Só entra em cena quando há pelo menos uma URL direta de plataforma —
+  // caso contrário todos os itens cairiam no smart link, e aí é melhor
+  // mandar direto pra lá do que cobrar um clique a mais.
+  var ouvirOverlay = document.querySelector("[data-ouvir-overlay]");
+  var temLinkDireto = (LANC.plataformas || []).some(function (p) { return p && p.url; });
+
+  function buildOuvir() {
+    if (!ouvirOverlay || !temLinkDireto) return;
+
+    var titulo = ouvirOverlay.querySelector("[data-ouvir-titulo]");
+    if (titulo) titulo.textContent = LANC.titulo || "";
+
+    var lista = ouvirOverlay.querySelector("[data-ouvir-lista]");
+    (LANC.plataformas || []).forEach(function (plat) {
+      if (!plat || !plat.nome) return;
+      var a = document.createElement("a");
+      a.className = "ouvir-item";
+      a.href = plat.url || LANC.smartLink;
+      a.target = "_blank";
+      a.rel = "noopener";
+
+      var nome = document.createElement("span");
+      nome.textContent = plat.nome;
+
+      var acao = document.createElement("span");
+      acao.className = "ouvir-acao";
+      acao.dataset.pt = "Reproduzir";
+      acao.dataset.en = "Play";
+
+      a.appendChild(nome);
+      a.appendChild(acao);
+      lista.appendChild(a);
+    });
+
+    function abrirOuvir(e) {
+      e.preventDefault();
+      ouvirOverlay.hidden = false;
+    }
+
+    function fecharOuvir() { ouvirOverlay.hidden = true; }
+
+    document.querySelectorAll("[data-release-cta]").forEach(function (btn) {
+      btn.addEventListener("click", abrirOuvir);
+    });
+
+    ouvirOverlay.querySelectorAll("[data-ouvir-close]").forEach(function (btn) {
+      btn.addEventListener("click", fecharOuvir);
+    });
+
+    ouvirOverlay.addEventListener("click", function (e) {
+      if (e.target === ouvirOverlay) fecharOuvir();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !ouvirOverlay.hidden) fecharOuvir();
+    });
+  }
+
+  buildOuvir();
 
   var channelEl = document.querySelector("[data-youtube-channel]");
   if (channelEl) {

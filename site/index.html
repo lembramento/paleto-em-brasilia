@@ -64,7 +64,8 @@
   <!-- FALA DO ARTICULISTA -->
   <div class="statement">
     <div class="statement-inner">
-      <p class="statement-quote" data-pt="&ldquo;Confirmo que existe um material.&rdquo;" data-en="&ldquo;I confirm that a material exists.&rdquo;"></p>
+      <p class="statement-quote" data-fase="presave" hidden data-pt="&ldquo;Confirmo que existe um material.&rdquo;" data-en="&ldquo;I confirm that a material exists.&rdquo;"></p>
+      <p class="statement-quote" data-fase="streaming" hidden data-pt="&ldquo;O material está publicado.&rdquo;" data-en="&ldquo;The material is published.&rdquo;"></p>
       <div class="statement-meta">
         <span class="statement-line"></span>
         <span data-pt="Pronunciamento nº 2 — o Articulista" data-en="Statement no. 2 — the Articulator"></span>
@@ -74,21 +75,29 @@
 
   <!-- SINGLE -->
   <div class="single">
-    <img class="single-cover" src="img/capa-do-meio-ao-fim.jpg" alt="Capa do single">
+    <img class="single-cover" src="img/capa-do-meio-ao-fim.jpg" alt="Capa do single" data-single-capa>
     <div class="single-info">
-      <div class="single-kicker" data-pt="Single 01" data-en="Single 01"></div>
-      <h2 class="single-title">Do meio ao fim</h2>
+      <div class="single-kicker" data-single-numero>Single 01</div>
+      <h2 class="single-title" data-single-titulo>Do meio ao fim</h2>
       <div class="single-facts">
         <span class="fact-label" data-pt="Lançamento" data-en="Release"></span>
-        <span class="fact-value">11.09.2026</span>
+        <span class="fact-value" data-single-data>11.09.2026</span>
         <span class="fact-label" data-pt="Formato" data-en="Format"></span>
-        <span class="fact-value" data-pt="Single digital" data-en="Digital single"></span>
+        <span class="fact-value" data-single-formato data-pt="Single digital" data-en="Digital single"></span>
         <span class="fact-label last" data-pt="A seguir" data-en="Next"></span>
-        <span class="fact-value last" data-pt="Dois singles até novembro" data-en="Two more singles until November"></span>
+        <span class="fact-value last" data-single-aseguir data-pt="Dois singles até novembro" data-en="Two more singles until November"></span>
       </div>
-      <button class="btn-solid" type="button" data-open-intimacao>
-        <span data-pt="Receba a intimação." data-en="Receive the summons."></span>
-      </button>
+      <div class="single-actions">
+        <a class="btn-solid" data-release-cta data-fase="streaming" hidden target="_blank" rel="noopener">
+          <span data-pt="Ouvir agora" data-en="Listen now"></span>
+        </a>
+        <button class="btn-solid" type="button" data-open-intimacao data-fase="presave" hidden>
+          <span data-pt="Receba a intimação." data-en="Receive the summons."></span>
+        </button>
+        <button class="btn-text" type="button" data-open-intimacao data-fase="streaming" hidden>
+          <span data-pt="Receba a intimação." data-en="Receive the summons."></span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -133,6 +142,22 @@
     <div class="footer-links">
       <a data-instagram-link>Instagram</a>
       <a data-presave-link>Spotify</a>
+    </div>
+  </div>
+
+  <!-- OUVIR: seletor de plataformas, sem sair do site -->
+  <div class="modal-overlay" data-ouvir-overlay hidden>
+    <div class="ouvir-box">
+      <button class="modal-close" type="button" data-ouvir-close>✕</button>
+      <div class="ouvir-capa">
+        <img src="img/capa-do-meio-ao-fim.jpg" alt="">
+      </div>
+      <div class="ouvir-conteudo">
+        <div class="ouvir-banda">Paletó em Brasília</div>
+        <h4 class="ouvir-titulo" data-ouvir-titulo></h4>
+        <div class="ouvir-label" data-pt="Ouvir em" data-en="Listen on"></div>
+        <div class="ouvir-lista" data-ouvir-lista></div>
+      </div>
     </div>
   </div>
 

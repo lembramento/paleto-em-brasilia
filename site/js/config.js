@@ -1,4 +1,26 @@
 // Tweaks do site — edite aqui sem mexer no resto do código.
+//
+// ───────────────────────────────────────────────────────────────────────────
+// CICLO DE UM LANÇAMENTO — o que fazer, e só aqui neste arquivo:
+//
+// 1) Anunciando o próximo single (ainda não saiu)
+//    lancamento.fase = "presave"
+//    preSaveUrl      = link de pré-save do LANDR
+//    numero / titulo / data / capa / formato / aSeguir = dados do novo single
+//    → a capa perde a tarja, o Articulista volta a dizer que "existe um
+//      material", e o botão do single vira "Receba a intimação." (e-mail →
+//      pré-save).
+//
+// 2) No dia em que sai
+//    lancamento.fase = "streaming"
+//    smartLink       = smart link do LANDR do single já publicado
+//    plataformas     = onde a faixa está no ar (cole a URL direta de cada uma)
+//    → volta a tarja na capa, o Articulista passa a dizer que "o material está
+//      publicado", o single ganha o botão "Ouvir agora" e o fluxo de e-mail
+//      passa a mandar ouvir em vez de pedir pré-save.
+//
+// Nada de HTML ou CSS precisa ser tocado nas duas viradas.
+// ───────────────────────────────────────────────────────────────────────────
 window.SITE_CONFIG = {
   // Link de pré-save / streaming (LANDR, etc.)
   preSaveUrl: "https://release.landr.com/991048912632",
@@ -16,20 +38,26 @@ window.SITE_CONFIG = {
   lancamento: {
     ativo: true,
     fase: "streaming",
+
+    // Ficha do single (alimenta a seção "Do meio ao fim" e o painel "Ouvir em")
+    numero: "Single 01",
     titulo: "Do meio ao fim",
+    data: "11.09.2026",
+    capa: "img/capa-do-meio-ao-fim.jpg",
+    formato: { pt: "Single digital", en: "Digital single" },
+    aSeguir: { pt: "Dois singles até novembro", en: "Two more singles until November" },
+
     // Smart link do LANDR — destino padrão de todos os botões abaixo.
     smartLink: "https://release.landr.com/domeioaofim",
-    // Plataformas listadas na tarja. Enquanto "url" estiver vazio, o botão
-    // aponta para o smartLink acima; cole a URL direta da faixa em cada
-    // serviço para o link ir direto pra lá.
-    // ATENÇÃO: confira esta lista — deixe só onde a faixa está mesmo no ar.
+    // Plataformas onde a faixa está no ar (mesma ordem da página do LANDR).
+    // Enquanto "url" estiver vazio, o botão cai no smartLink acima; cole a URL
+    // direta da faixa em cada serviço para o clique ir direto pra lá.
     plataformas: [
       { nome: "Spotify", url: "" },
       { nome: "Apple Music", url: "" },
-      { nome: "YouTube Music", url: "" },
       { nome: "Deezer", url: "" },
+      { nome: "YouTube Music", url: "" },
       { nome: "Amazon Music", url: "" },
-      { nome: "Tidal", url: "" },
     ],
   },
 

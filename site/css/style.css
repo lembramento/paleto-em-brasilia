@@ -286,6 +286,18 @@ img { display: block; max-width: 100%; }
 }
 
 .btn-solid:hover { background: var(--blue-light); color: #000; }
+a.btn-solid { text-decoration: none; display: inline-block; }
+
+.single-actions {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.single-actions .btn-solid { margin-top: 0; }
+.single-actions [hidden] { display: none; }
 
 /* ---------- ARQUIVO / PRONUNCIAMENTOS ---------- */
 .archive { padding: 110px 44px 120px; background: #050505; border-top: 1px solid #151513; }
@@ -537,6 +549,83 @@ img { display: block; max-width: 100%; }
 .footer-links a { color: #5a5a56; text-decoration: none; }
 .footer-links a:hover { color: #f2f2ef; }
 
+/* ---------- MODAL: OUVIR EM ---------- */
+.ouvir-box {
+  position: relative;
+  width: 820px;
+  max-width: 100%;
+  min-width: 0;
+  background: #050505;
+  border: 1px solid #1e1e1c;
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+.ouvir-capa { position: relative; background: #0d0d0c; }
+
+.ouvir-capa img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ouvir-conteudo { padding: 44px 44px 40px; display: flex; flex-direction: column; gap: 14px; }
+
+.ouvir-banda {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #6a6a66;
+}
+
+.ouvir-titulo {
+  margin: 0;
+  font-family: var(--sans);
+  font-weight: 900;
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+  color: #f2f2ef;
+}
+
+.ouvir-label {
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #6a6a66;
+}
+
+.ouvir-lista { display: flex; flex-direction: column; }
+
+.ouvir-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 4px;
+  border-top: 1px solid #1b1b19;
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #dededa;
+  transition: background-color .15s ease, color .15s ease;
+}
+
+.ouvir-item:last-child { border-bottom: 1px solid #1b1b19; }
+.ouvir-item:hover { background: #0d0d0c; color: #fff; }
+
+.ouvir-acao { color: #6a6a66; font-size: 12px; letter-spacing: .18em; }
+.ouvir-item:hover .ouvir-acao { color: var(--blue-light); }
+
 /* ---------- MODAL: INTIMAÇÃO ---------- */
 .modal-overlay {
   position: fixed;
@@ -706,6 +795,10 @@ img { display: block; max-width: 100%; }
   .band-content { padding: 56px 24px; }
   .modal-step-presave { grid-template-columns: 1fr; }
   .presave-photo-wrap { min-height: 220px; }
+  .ouvir-box { grid-template-columns: 1fr; }
+  .ouvir-capa { max-height: 220px; }
+  .ouvir-conteudo { padding: 32px 24px 28px; }
+  .ouvir-titulo { font-size: 32px; }
 }
 
 @media (max-width: 640px) {
