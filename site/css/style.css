@@ -117,63 +117,94 @@ img { display: block; max-width: 100%; }
   max-width: 14ch;
 }
 
-/* Tarja de lançamento na capa */
-.release { display: flex; flex-direction: column; gap: 16px; }
-.release[hidden] { display: none; }
+/* Box de lançamento — canto direito da capa */
+.release-box {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 360px;
+  max-width: 100%;
+  background: rgba(5, 5, 5, .72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, .16);
+  padding: 22px 22px 8px;
+}
 
-.release-head {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+.release-box[hidden] { display: none; }
+
+.release-box-head { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+
+.release-box-capa {
+  width: 62px;
+  height: 62px;
+  object-fit: cover;
+  border: 1px solid #1e1e1c;
+  flex-shrink: 0;
+}
+
+.release-box-id { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+
+.release-box-tag {
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: 11px;
   letter-spacing: .2em;
   text-transform: uppercase;
+  color: #8f8f8a;
 }
 
-.release-tag { color: #f2f2ef; }
-.release-rule { width: 40px; height: 1px; background: rgba(255, 255, 255, .4); }
-.release-title { color: rgba(255, 255, 255, .72); }
-
-.release-actions { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
-
-.release-cta {
-  border: none;
-  cursor: pointer;
-  font-family: var(--mono);
-  font-size: 13px;
-  letter-spacing: .2em;
+.release-box-titulo {
+  font-family: var(--sans);
+  font-weight: 900;
+  font-size: 21px;
+  line-height: 1.05;
+  letter-spacing: -.02em;
   text-transform: uppercase;
-  color: #000;
-  background: #f2f2ef;
-  padding: 15px 30px;
-  text-decoration: none;
-  transition: background-color .15s ease, color .15s ease;
+  color: #f2f2ef;
 }
 
-.release-cta:hover { background: var(--blue-light); color: #000; }
+.release-box-lista { display: flex; flex-direction: column; }
 
-.release-links {
+.release-box-item {
   display: flex;
   align-items: center;
-  gap: 8px 18px;
-  flex-wrap: wrap;
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-
-.release-links a {
-  color: rgba(255, 255, 255, .62);
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 2px;
+  border-top: 1px solid rgba(255, 255, 255, .12);
   text-decoration: none;
-  border-bottom: 1px solid transparent;
-  padding-bottom: 2px;
-  transition: color .15s ease, border-color .15s ease;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #dededa;
+  transition: color .15s ease;
 }
 
-.release-links a:hover { color: #f2f2ef; border-bottom-color: #f2f2ef; }
+.release-box-item:last-child { border-bottom: 1px solid rgba(255, 255, 255, .12); }
+.release-box-item:hover { color: #fff; }
+
+.release-box-acao { color: #6a6a66; font-size: 10.5px; letter-spacing: .18em; }
+.release-box-item:hover .release-box-acao { color: var(--blue-light); }
+
+/* Enquanto o box flutua na lateral, o título não pode invadir a faixa dele */
+@media (min-width: 1401px) {
+  .hero-bottom { max-width: calc(100% - 420px); }
+}
+
+/* Abaixo disso o box não cabe ao lado do título sem encostar nele:
+   sai da lateral e entra no fluxo, e a capa cresce para acomodar. */
+@media (max-width: 1400px) {
+  .hero { height: auto; min-height: 100vh; max-height: none; }
+  .hero-content { position: relative; inset: auto; gap: 30px; }
+  .release-box {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: 420px;
+  }
+}
 
 .hero-scroll {
   display: flex;

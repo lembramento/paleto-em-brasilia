@@ -103,15 +103,29 @@
     var titulo = strip.querySelector("[data-release-titulo]");
     if (titulo) titulo.textContent = LANC.titulo || "";
 
+    var capa = strip.querySelector("[data-release-capa]");
+    if (capa && LANC.capa) capa.src = LANC.capa;
+
     var lista = strip.querySelector("[data-release-links]");
     if (lista) {
       (LANC.plataformas || []).forEach(function (plat) {
         if (!plat || !plat.nome) return;
         var a = document.createElement("a");
+        a.className = "release-box-item";
         a.href = plat.url || LANC.smartLink;
         a.target = "_blank";
         a.rel = "noopener";
-        a.textContent = plat.nome;
+
+        var nome = document.createElement("span");
+        nome.textContent = plat.nome;
+
+        var acao = document.createElement("span");
+        acao.className = "release-box-acao";
+        acao.dataset.pt = "Reproduzir";
+        acao.dataset.en = "Play";
+
+        a.appendChild(nome);
+        a.appendChild(acao);
         lista.appendChild(a);
       });
     }
