@@ -95,6 +95,44 @@
     el.href = destinoLancamento;
   });
 
+  // Glifos monocromáticos das plataformas. São representações simplificadas,
+  // não as marcas oficiais: para usar os logos de verdade, baixe o SVG da
+  // página de brand de cada serviço, coloque em site/img/plataformas/ e aponte
+  // o campo "icone" da plataforma no config para o arquivo.
+  var ICONES = {
+    spotify: '<circle cx="12" cy="12" r="11"/><path d="M6.6 9.3c3.4-1 7.1-.6 10.1 1M7.3 12.8c2.8-.8 5.8-.5 8.3.9M8 16.1c2.2-.6 4.6-.3 6.6.8" stroke="#0b0b0b" stroke-width="1.7" fill="none" stroke-linecap="round"/>',
+    "apple-music": '<path d="M9.4 17.2V7.4l8.2-1.7v9.1" fill="none" stroke="currentColor" stroke-width="1.7"/><ellipse cx="7.4" cy="17.4" rx="2.5" ry="2.1"/><ellipse cx="15.6" cy="15.6" rx="2.5" ry="2.1"/>',
+    deezer: '<rect x="2" y="14.6" width="5.3" height="3.1"/><rect x="9.4" y="14.6" width="5.3" height="3.1"/><rect x="16.8" y="14.6" width="5.3" height="3.1"/><rect x="9.4" y="10.2" width="5.3" height="3.1"/><rect x="16.8" y="10.2" width="5.3" height="3.1"/><rect x="16.8" y="5.8" width="5.3" height="3.1"/>',
+    "youtube-music": '<circle cx="12" cy="12" r="10.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M9.9 7.9l6.3 4.1-6.3 4.1z"/>',
+    "amazon-music": '<rect x="1.7" y="1.7" width="20.6" height="20.6" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M10.4 16.1V8.7l5.8-1.2v6.7" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="16.3" r="1.8"/><circle cx="14.8" cy="14.8" r="1.8"/>',
+    generico: '<path d="M9.6 16.6V7.2l8-1.6v8.9" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="7.8" cy="16.8" r="2.1"/><circle cx="15.8" cy="15" r="2.1"/>'
+  };
+
+  function slug(nome) {
+    return nome.toLowerCase()
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+
+  function montarIcone(plat) {
+    // "icone" apontando para um arquivo (logo oficial) tem prioridade
+    if (plat.icone && /[./]/.test(plat.icone)) {
+      var img = document.createElement("img");
+      img.className = "release-box-icone";
+      img.src = plat.icone;
+      img.alt = "";
+      return img;
+    }
+    var chave = plat.icone || slug(plat.nome);
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "release-box-icone");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("fill", "currentColor");
+    svg.setAttribute("aria-hidden", "true");
+    svg.innerHTML = ICONES[chave] || ICONES.generico;
+    return svg;
+  }
+
   function buildRelease() {
     var strip = document.querySelector("[data-release]");
     if (!strip) return;
@@ -117,15 +155,17 @@
         a.rel = "noopener";
 
         var nome = document.createElement("span");
+        nome.className = "release-box-nome";
         nome.textContent = plat.nome;
 
-        var acao = document.createElement("span");
-        acao.className = "release-box-acao";
-        acao.dataset.pt = "Reproduzir";
-        acao.dataset.en = "Play";
+        var botao = document.createElement("span");
+        botao.className = "release-box-btn";
+        botao.dataset.pt = "Reproduzir";
+        botao.dataset.en = "Play";
 
+        a.appendChild(montarIcone(plat));
         a.appendChild(nome);
-        a.appendChild(acao);
+        a.appendChild(botao);
         lista.appendChild(a);
       });
     }

@@ -117,39 +117,49 @@ img { display: block; max-width: 100%; }
   max-width: 14ch;
 }
 
-/* Box de lançamento — canto direito da capa */
+/* Box de lançamento — canto direito da capa.
+   right/top são relativos à borda do PADDING de .hero-content, então a margem
+   lateral precisa ser repetida aqui para o box alinhar com o resto da capa. */
 .release-box {
   position: absolute;
-  right: 0;
+  right: 44px;
   top: 50%;
   transform: translateY(-50%);
-  width: 360px;
+  width: 380px;
   max-width: 100%;
-  background: rgba(5, 5, 5, .72);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, .16);
-  padding: 22px 22px 8px;
+  background: rgba(6, 6, 6, .78);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, .14);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .45);
+  padding: 24px;
 }
 
 .release-box[hidden] { display: none; }
 
-.release-box-head { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.release-box-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 20px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, .14);
+}
 
 .release-box-capa {
-  width: 62px;
-  height: 62px;
+  width: 68px;
+  height: 68px;
   object-fit: cover;
-  border: 1px solid #1e1e1c;
+  border: 1px solid rgba(255, 255, 255, .12);
   flex-shrink: 0;
 }
 
-.release-box-id { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.release-box-id { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
 
 .release-box-tag {
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .2em;
+  font-size: 10.5px;
+  letter-spacing: .22em;
   text-transform: uppercase;
   color: #8f8f8a;
 }
@@ -157,11 +167,12 @@ img { display: block; max-width: 100%; }
 .release-box-titulo {
   font-family: var(--sans);
   font-weight: 900;
-  font-size: 21px;
+  font-size: 22px;
   line-height: 1.05;
   letter-spacing: -.02em;
   text-transform: uppercase;
   color: #f2f2ef;
+  text-wrap: balance;
 }
 
 .release-box-lista { display: flex; flex-direction: column; }
@@ -169,41 +180,52 @@ img { display: block; max-width: 100%; }
 .release-box-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 13px 2px;
-  border-top: 1px solid rgba(255, 255, 255, .12);
+  gap: 13px;
+  padding: 11px 0;
   text-decoration: none;
-  font-family: var(--mono);
-  font-size: 12.5px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: #dededa;
+  color: #cfcfca;
   transition: color .15s ease;
 }
 
-.release-box-item:last-child { border-bottom: 1px solid rgba(255, 255, 255, .12); }
+.release-box-item + .release-box-item { border-top: 1px solid rgba(255, 255, 255, .08); }
 .release-box-item:hover { color: #fff; }
 
-.release-box-acao { color: #6a6a66; font-size: 10.5px; letter-spacing: .18em; }
-.release-box-item:hover .release-box-acao { color: var(--blue-light); }
-
-/* Enquanto o box flutua na lateral, o título não pode invadir a faixa dele */
-@media (min-width: 1401px) {
-  .hero-bottom { max-width: calc(100% - 420px); }
+.release-box-icone {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  display: block;
+  opacity: .85;
+  transition: opacity .15s ease;
 }
 
-/* Abaixo disso o box não cabe ao lado do título sem encostar nele:
-   sai da lateral e entra no fluxo, e a capa cresce para acomodar. */
-@media (max-width: 1400px) {
-  .hero { height: auto; min-height: 100vh; max-height: none; }
-  .hero-content { position: relative; inset: auto; gap: 30px; }
-  .release-box {
-    position: static;
-    transform: none;
-    width: 100%;
-    max-width: 420px;
-  }
+.release-box-item:hover .release-box-icone { opacity: 1; }
+
+.release-box-nome {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.release-box-btn {
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #a8a8a3;
+  border: 1px solid rgba(255, 255, 255, .22);
+  padding: 7px 13px;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+
+.release-box-item:hover .release-box-btn {
+  background: #f2f2ef;
+  border-color: #f2f2ef;
+  color: #000;
 }
 
 .hero-scroll {
