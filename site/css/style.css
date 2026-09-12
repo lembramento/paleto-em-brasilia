@@ -117,6 +117,64 @@ img { display: block; max-width: 100%; }
   max-width: 14ch;
 }
 
+/* Tarja de lançamento na capa */
+.release { display: flex; flex-direction: column; gap: 16px; }
+.release[hidden] { display: none; }
+
+.release-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.release-tag { color: #f2f2ef; }
+.release-rule { width: 40px; height: 1px; background: rgba(255, 255, 255, .4); }
+.release-title { color: rgba(255, 255, 255, .72); }
+
+.release-actions { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+
+.release-cta {
+  border: none;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #000;
+  background: #f2f2ef;
+  padding: 15px 30px;
+  text-decoration: none;
+  transition: background-color .15s ease, color .15s ease;
+}
+
+.release-cta:hover { background: var(--blue-light); color: #000; }
+
+.release-links {
+  display: flex;
+  align-items: center;
+  gap: 8px 18px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.release-links a {
+  color: rgba(255, 255, 255, .62);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: color .15s ease, border-color .15s ease;
+}
+
+.release-links a:hover { color: #f2f2ef; border-bottom-color: #f2f2ef; }
+
 .hero-scroll {
   display: flex;
   gap: 32px;
@@ -571,6 +629,10 @@ img { display: block; max-width: 100%; }
 }
 
 .presave-content { padding: 52px 48px 46px; display: flex; flex-direction: column; gap: 20px; }
+
+/* Cada fase agrupa título + textos, então repete o espaçamento do pai */
+.presave-content > .presave-fase { display: flex; flex-direction: column; gap: 20px; }
+.presave-content > .presave-fase[hidden] { display: none; }
 
 .presave-title {
   margin: 0;

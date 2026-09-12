@@ -38,6 +38,21 @@
       <div class="hero-bottom">
         <div class="hero-kicker" data-pt="UMA BANDA. TRÊS SINGLES. SETEMBRO, OUTUBRO, NOVEMBRO." data-en="One band. Three singles. September, October, November."></div>
         <h1 class="hero-title">Paletó em Brasília</h1>
+
+        <div class="release" data-release hidden>
+          <div class="release-head">
+            <span class="release-tag" data-pt="Já disponível" data-en="Out now"></span>
+            <span class="release-rule"></span>
+            <span class="release-title" data-release-titulo></span>
+          </div>
+          <div class="release-actions">
+            <a class="release-cta" data-release-cta target="_blank" rel="noopener">
+              <span data-pt="Ouvir agora" data-en="Listen now"></span>
+            </a>
+            <div class="release-links" data-release-links></div>
+          </div>
+        </div>
+
         <div class="hero-scroll">
           <span data-pt="ROLE A PÁGINA.&nbsp;" data-en="Scroll.&nbsp;"></span>
           <span class="hero-scroll-line"></span>
@@ -148,12 +163,24 @@
           <div class="presave-photo-overlay"></div>
         </div>
         <div class="presave-content">
-          <h4 class="presave-title" data-pt="Perfeito. Só mais uma coisa..." data-en="An understanding has been reached."></h4>
-          <p class="presave-text" data-pt="&nbsp;Um segundo gesto bondoso é requerido da sua parte. Chamam de &quot;pré-save&quot;. Eu chamo de &lt;i&gt;sentar-se à mesa&lt;/i&gt;." data-en="My friends. It came to my attention that your e-mail was recorded, and I want you to know this was noted with great sensibility, at the highest level. Now a second gesture is required of you — small, almost nothing, twenty seconds, no more. They call it &ldquo;pre-save.&rdquo; I call it the sitting of the table."></p>
-          <p class="presave-text" data-pt="Funciona assim: você autoriza, no seu próprio streaming, um aplicativo que jamais ouviu falar antes. Isso não foi articulação minha. Mas posso lhe dizer, com a autoridade moral que o momento exige, que é para o bem do processo geral." data-en="It works like this: you authorise, on your own streaming service, an application you have never heard of before. This was not my design. But I can tell you, with the moral authority the moment demands, that it is for the good of the process."></p>
+          <!-- Fase "presave": o single ainda vai sair -->
+          <div class="presave-fase" data-fase="presave" hidden>
+            <h4 class="presave-title" data-pt="Perfeito. Só mais uma coisa..." data-en="An understanding has been reached."></h4>
+            <p class="presave-text" data-pt="&nbsp;Um segundo gesto bondoso é requerido da sua parte. Chamam de &quot;pré-save&quot;. Eu chamo de &lt;i&gt;sentar-se à mesa&lt;/i&gt;." data-en="My friends. It came to my attention that your e-mail was recorded, and I want you to know this was noted with great sensibility, at the highest level. Now a second gesture is required of you — small, almost nothing, twenty seconds, no more. They call it &ldquo;pre-save.&rdquo; I call it the sitting of the table."></p>
+            <p class="presave-text" data-pt="Funciona assim: você autoriza, no seu próprio streaming, um aplicativo que jamais ouviu falar antes. Isso não foi articulação minha. Mas posso lhe dizer, com a autoridade moral que o momento exige, que é para o bem do processo geral." data-en="It works like this: you authorise, on your own streaming service, an application you have never heard of before. This was not my design. But I can tell you, with the moral authority the moment demands, that it is for the good of the process."></p>
+          </div>
+
+          <!-- Fase "streaming": o single já está no ar -->
+          <div class="presave-fase" data-fase="streaming" hidden>
+            <h4 class="presave-title" data-pt="Perfeito. Agora a parte boa." data-en="Perfect. Now the good part."></h4>
+            <p class="presave-text" data-pt="&nbsp;Comunico que o material se encontra publicado e disponível em todas as plataformas. Nenhuma autorização lhe é exigida desta vez. Basta apertar." data-en="I hereby communicate that the material is published and available on every platform. No authorisation is required of you this time. You need only press."></p>
+            <p class="presave-text" data-pt="O que se faz a partir daqui é de foro íntimo: ouvir uma vez, ouvir dez, ou repassar a terceiros. Registro apenas que o processo corre bem quando se repassa a terceiros." data-en="What you do from here is a private matter: listen once, listen ten times, or pass it on. I note only that the process runs well when it is passed on."></p>
+          </div>
+
           <div class="presave-actions">
             <a class="btn-presave" data-presave-cta target="_blank" rel="noopener">
-              <span data-pt="Sentar à mesa" data-en="Sit at the table"></span>
+              <span class="presave-fase" data-fase="presave" data-pt="Sentar à mesa" data-en="Sit at the table" hidden></span>
+              <span class="presave-fase" data-fase="streaming" data-pt="Ouvir agora" data-en="Listen now" hidden></span>
             </a>
             <button class="btn-text" type="button" data-close-intimacao>
               <span data-pt="Retirar a tratativa" data-en="Withdraw the negotiation"></span>
@@ -166,7 +193,8 @@
       <div class="modal-step-fim" data-step="fim" hidden>
         <div class="modal-kicker" data-pt="Processo encerrado" data-en="Case closed"></div>
         <h4 class="modal-title" data-pt="Intimação cumprida." data-en="Summons complied with."></h4>
-        <p class="modal-body-text" style="max-width:44ch" data-pt="Seu nome está nos autos. Nada mais será exigido de você até 11.09.2026." data-en="Your name is on the record. Nothing else will be asked of you until 11.09.2026."></p>
+        <p class="modal-body-text presave-fase" style="max-width:44ch" data-fase="presave" hidden data-pt="Seu nome está nos autos. Nada mais será exigido de você até o lançamento." data-en="Your name is on the record. Nothing else will be asked of you until release day."></p>
+        <p class="modal-body-text presave-fase" style="max-width:44ch" data-fase="streaming" hidden data-pt="Seu nome está nos autos. Você será notificado no próximo lançamento." data-en="Your name is on the record. You will be notified at the next release."></p>
         <button class="btn-solid-alt" type="button" data-close-intimacao>
           <span data-pt="Encerrar" data-en="Close"></span>
         </button>

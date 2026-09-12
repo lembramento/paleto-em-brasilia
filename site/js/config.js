@@ -3,6 +3,36 @@ window.SITE_CONFIG = {
   // Link de pré-save / streaming (LANDR, etc.)
   preSaveUrl: "https://release.landr.com/991048912632",
 
+  // Lançamento em destaque. Controla a tarja da capa E o fluxo "Receba a
+  // intimação" — os dois se ajustam à fase, para reaproveitar nos próximos singles.
+  //
+  // fase: "streaming" → single já no ar: tarja aparece na capa e o fluxo manda
+  //                     o público ouvir (botão "Ouvir agora" → smartLink).
+  // fase: "presave"   → próximo single: tarja some e o fluxo volta ao texto de
+  //                     pré-save do Articulista (botão → preSaveUrl acima).
+  //
+  // Para o próximo lançamento: troque fase para "presave", atualize preSaveUrl,
+  // e quando sair troque fase para "streaming" com o novo smartLink e título.
+  lancamento: {
+    ativo: true,
+    fase: "streaming",
+    titulo: "Do meio ao fim",
+    // Smart link do LANDR — destino padrão de todos os botões abaixo.
+    smartLink: "https://release.landr.com/domeioaofim",
+    // Plataformas listadas na tarja. Enquanto "url" estiver vazio, o botão
+    // aponta para o smartLink acima; cole a URL direta da faixa em cada
+    // serviço para o link ir direto pra lá.
+    // ATENÇÃO: confira esta lista — deixe só onde a faixa está mesmo no ar.
+    plataformas: [
+      { nome: "Spotify", url: "" },
+      { nome: "Apple Music", url: "" },
+      { nome: "YouTube Music", url: "" },
+      { nome: "Deezer", url: "" },
+      { nome: "Amazon Music", url: "" },
+      { nome: "Tidal", url: "" },
+    ],
+  },
+
   // Perfil do Instagram da banda
   instagramUrl: "https://instagram.com/",
 

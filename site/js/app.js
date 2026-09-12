@@ -34,8 +34,17 @@
   applyLang(savedLang);
 
   // ---------- TWEAKS / CONFIG ----------
-  var presaveEls = document.querySelectorAll("[data-presave-link], [data-presave-cta]");
-  presaveEls.forEach(function (el) { el.href = CONFIG.preSaveUrl || "#"; });
+  var LANC = CONFIG.lancamento || {};
+  // "streaming" = já lançado (links de streaming); "presave" = ainda vai sair.
+  var FASE = LANC.fase === "presave" ? "presave" : "streaming";
+  // Destino dos botões de escuta: smart link do lançamento na fase "streaming",
+  // link de pré-save na fase "presave".
+  var destinoLancamento = (FASE === "presave" ? CONFIG.preSaveUrl : LANC.smartLink) ||
+    LANC.smartLink || CONFIG.preSaveUrl || "#";
+
+  document.querySelectorAll("[data-presave-link], [data-presave-cta]").forEach(function (el) {
+    el.href = destinoLancamento;
+  });
 
   var instagramEl = document.querySelector("[data-instagram-link]");
   if (instagramEl) instagramEl.href = CONFIG.instagramUrl || "#";
@@ -51,6 +60,40 @@
     var archiveSection = document.querySelector('[data-section="arquivo"]');
     if (archiveSection) archiveSection.remove();
   }
+
+  // ---------- LANÇAMENTO: tarja da capa + fase do fluxo ----------
+  document.querySelectorAll(".presave-fase").forEach(function (el) {
+    el.hidden = el.dataset.fase !== FASE;
+  });
+
+  function buildRelease() {
+    var strip = document.querySelector("[data-release]");
+    if (!strip) return;
+    if (!LANC.ativo || FASE !== "streaming" || !LANC.smartLink) return;
+
+    var titulo = strip.querySelector("[data-release-titulo]");
+    if (titulo) titulo.textContent = LANC.titulo || "";
+
+    var cta = strip.querySelector("[data-release-cta]");
+    if (cta) cta.href = LANC.smartLink;
+
+    var lista = strip.querySelector("[data-release-links]");
+    if (lista) {
+      (LANC.plataformas || []).forEach(function (plat) {
+        if (!plat || !plat.nome) return;
+        var a = document.createElement("a");
+        a.href = plat.url || LANC.smartLink;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.textContent = plat.nome;
+        lista.appendChild(a);
+      });
+    }
+
+    strip.hidden = false;
+  }
+
+  buildRelease();
 
   var channelEl = document.querySelector("[data-youtube-channel]");
   if (channelEl) {
