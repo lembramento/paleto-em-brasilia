@@ -53,11 +53,11 @@ window.SITE_CONFIG = {
     // Enquanto "url" estiver vazio, o botão cai no smartLink acima; cole a URL
     // direta da faixa em cada serviço para o clique ir direto pra lá.
     plataformas: [
-      { nome: "Spotify", url: "https://open.spotify.com/intl-pt/album/1APOJoOhVmVJFb80kflYeE" },
-      { nome: "Apple Music", url: "https://music.apple.com/us/album/do-meio-ao-fim-single/6805523805" },
+      { nome: "Spotify", url: "https://open.spotify.com/album/1APOJoOhVmVJFb80kflYeE" },
+      { nome: "Apple Music", url: "https://music.apple.com/br/album/do-meio-ao-fim-single/6805523805" },
       { nome: "Deezer", url: "https://www.deezer.com/br/album/1063549841" },
       { nome: "YouTube Music", url: "https://music.youtube.com/playlist?list=OLAK5uy_nb6mU4SHw0zz-z5H6j2RyT047s_BE4sGU" },
-      { nome: "Amazon Music", url: "https://music.amazon.com/albums/B0HGMGJKRF?ref=dm_ff_amazonmusic_3p&tag=featurefmbr-20" },
+      { nome: "Amazon Music", url: "https://music.amazon.com/albums/B0HGMGJKRF" },
     ],
   },
 
