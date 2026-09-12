@@ -123,9 +123,8 @@ img { display: block; max-width: 100%; }
 .release-box {
   position: absolute;
   right: 100px;
-  /* Alinha a base do box com a base do título: 48px de padding inferior da
-     capa + a linha do "role a página" + o gap entre ela e o título. */
-  bottom: calc(48px + 17px + 22px);
+  /* Alinha a base do box com a base do título, que agora encerra a capa */
+  bottom: 48px;
   width: 380px;
   max-width: 100%;
   background: rgba(6, 6, 6, .78);
@@ -245,20 +244,6 @@ img { display: block; max-width: 100%; }
     max-width: 420px;
   }
 }
-
-.hero-scroll {
-  display: flex;
-  gap: 32px;
-  align-items: center;
-  font-family: var(--mono);
-  font-size: 13px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, .55);
-  flex-shrink: 0;
-}
-
-.hero-scroll-line { width: 120px; height: 1px; background: rgba(255, 255, 255, .35); }
 
 /* ---------- FALA DO ARTICULISTA ---------- */
 .statement {
