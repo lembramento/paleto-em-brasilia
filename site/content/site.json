@@ -1,0 +1,65 @@
+{
+  "_comentario": "Conteúdo do site, editado pelo painel em /admin. Não edite à mão a menos que precise — o painel sobrescreve este arquivo inteiro a cada gravação.",
+  "lancamento": {
+    "ativo": true,
+    "fase": "streaming",
+    "numero": "Single 01",
+    "titulo": "Do meio ao fim",
+    "data": "11.09.2026",
+    "capa": "img/capa-do-meio-ao-fim.jpg",
+    "formato": { "pt": "Single digital", "en": "Digital single" },
+    "aSeguir": { "pt": "Dois singles até novembro", "en": "Two more singles until November" },
+    "smartLink": "https://release.landr.com/domeioaofim",
+    "preSaveUrl": "https://release.landr.com/991048912632",
+    "plataformas": [
+      { "nome": "Spotify", "url": "https://open.spotify.com/album/1APOJoOhVmVJFb80kflYeE" },
+      { "nome": "Apple Music", "url": "https://music.apple.com/br/album/do-meio-ao-fim-single/6805523805" },
+      { "nome": "Deezer", "url": "https://www.deezer.com/br/album/1063549841" },
+      { "nome": "YouTube Music", "url": "https://music.youtube.com/playlist?list=OLAK5uy_nb6mU4SHw0zz-z5H6j2RyT047s_BE4sGU" },
+      { "nome": "Amazon Music", "url": "https://music.amazon.com/albums/B0HGMGJKRF" }
+    ]
+  },
+  "links": {
+    "instagramUrl": "https://instagram.com/",
+    "youtubeChannelUrl": "https://youtube.com/@paletoembrasilia.oficial",
+    "pressReleaseUrl": "imprensa.html"
+  },
+  "secoes": {
+    "mostrarArquivo": true
+  },
+  "pronunciamentos": [
+    {
+      "numero": "Nº 1",
+      "pt": "&ldquo;Chegou-se a um consenso.&rdquo;",
+      "en": "&ldquo;A consensus has been reached.&rdquo;",
+      "duracao": "—",
+      "youtubeId": "VrldpRqUGf0",
+      "vertical": true
+    },
+    {
+      "numero": "Nº 2",
+      "pt": "&ldquo;Serão três.&rdquo;",
+      "en": "&ldquo;There will be three.&rdquo;",
+      "duracao": "—",
+      "youtubeId": "F6vwOhpka2M",
+      "vertical": true
+    },
+    {
+      "numero": "Nº 3",
+      "pt": "Registro selado.",
+      "en": "Record sealed.",
+      "duracao": "—",
+      "youtubeId": "dYAHoWspIgs",
+      "vertical": true
+    }
+  ],
+  "imagens": {
+    "heroFundo": "img/noir-7.jpeg",
+    "bandaFoto": "img/banda.png",
+    "articulistaFoto": "img/articulista-gabinete.jpg"
+  },
+  "textos": {},
+  "mailerlite": {
+    "action": "https://assets.mailerlite.com/jsonp/2613474/forms/197598446476067891/subscribe"
+  }
+}

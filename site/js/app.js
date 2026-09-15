@@ -1,9 +1,71 @@
 (function () {
   "use strict";
 
-  var CONFIG = window.SITE_CONFIG || {};
   var LANG_KEY = "paleto_lang";
   var state = { lang: "pt" };
+  var CONFIG = window.SITE_CONFIG || {};
+
+  // O conteúdo vem de content/site.json, gravado pelo painel em /admin.
+  // config.js fica como valor de partida: se o JSON não carregar, o site sobe
+  // igual, só sem as edições mais recentes.
+  fetch("content/site.json", { cache: "no-store" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (dados) { iniciar(dados); })
+    .catch(function () { iniciar(null); });
+
+  function iniciar(dados) {
+    if (dados) CONFIG = mesclar(CONFIG, dados);
+    aplicarTextos(CONFIG.textos);
+    aplicarImagens(CONFIG.imagens);
+    montar();
+  }
+
+  // Mescla rasa por chave; objetos aninhados também mesclam, listas são
+  // substituídas inteiras (a ordem das plataformas/pronunciamentos é do painel).
+  function mesclar(base, novo) {
+    var saida = {}, k;
+    for (k in base) saida[k] = base[k];
+    for (k in novo) {
+      var v = novo[k];
+      if (v && typeof v === "object" && !Array.isArray(v) &&
+          base[k] && typeof base[k] === "object" && !Array.isArray(base[k])) {
+        saida[k] = mesclar(base[k], v);
+      } else {
+        saida[k] = v;
+      }
+    }
+    return saida;
+  }
+
+  // Textos editados no painel: cada nó marcado com data-edit recebe o par
+  // {pt, en} correspondente antes de o idioma ser aplicado.
+  function aplicarTextos(textos) {
+    if (!textos) return;
+    Object.keys(textos).forEach(function (chave) {
+      var valor = textos[chave];
+      if (!valor) return;
+      document.querySelectorAll('[data-edit="' + chave.replace(/"/g, '') + '"]').forEach(function (el) {
+        if (typeof valor === "string") { el.dataset.pt = valor; return; }
+        if (valor.pt) el.dataset.pt = valor.pt;
+        if (valor.en) el.dataset.en = valor.en;
+      });
+    });
+  }
+
+  function aplicarImagens(imagens) {
+    if (!imagens) return;
+    var mapa = {
+      heroFundo: ".hero-bg",
+      bandaFoto: ".band-photo",
+      articulistaFoto: ".presave-photo"
+    };
+    Object.keys(mapa).forEach(function (chave) {
+      var el = document.querySelector(mapa[chave]);
+      if (el && imagens[chave]) el.src = imagens[chave];
+    });
+  }
+
+  function montar() {
 
   // ---------- IDIOMA ----------
   function applyLang(lang) {
@@ -39,24 +101,25 @@
   var FASE = LANC.fase === "presave" ? "presave" : "streaming";
   // Destino dos botões de escuta: smart link do lançamento na fase "streaming",
   // link de pré-save na fase "presave".
-  var destinoLancamento = (FASE === "presave" ? CONFIG.preSaveUrl : LANC.smartLink) ||
-    LANC.smartLink || CONFIG.preSaveUrl || "#";
+  var preSave = LANC.preSaveUrl || CONFIG.preSaveUrl;
+  var destinoLancamento = (FASE === "presave" ? preSave : LANC.smartLink) ||
+    LANC.smartLink || preSave || "#";
 
   document.querySelectorAll("[data-presave-link], [data-presave-cta]").forEach(function (el) {
     el.href = destinoLancamento;
   });
 
   var instagramEl = document.querySelector("[data-instagram-link]");
-  if (instagramEl) instagramEl.href = CONFIG.instagramUrl || "#";
+  if (instagramEl) instagramEl.href = (CONFIG.links || {}).instagramUrl || CONFIG.instagramUrl || "#";
 
   var pressEl = document.querySelector("[data-press-link]");
   if (pressEl) {
-    var pressUrl = CONFIG.pressReleaseUrl || "#";
+    var pressUrl = (CONFIG.links || {}).pressReleaseUrl || CONFIG.pressReleaseUrl || "#";
     pressEl.href = pressUrl;
     if (pressUrl === "#") pressEl.removeAttribute("download");
   }
 
-  if (CONFIG.mostrarArquivo === false) {
+  if (((CONFIG.secoes || {}).mostrarArquivo ?? CONFIG.mostrarArquivo) === false) {
     var archiveSection = document.querySelector('[data-section="arquivo"]');
     if (archiveSection) archiveSection.remove();
   }
@@ -238,7 +301,7 @@
 
   var channelEl = document.querySelector("[data-youtube-channel]");
   if (channelEl) {
-    if (CONFIG.youtubeChannelUrl) channelEl.href = CONFIG.youtubeChannelUrl;
+    if ((CONFIG.links || {}).youtubeChannelUrl || CONFIG.youtubeChannelUrl) channelEl.href = (CONFIG.links || {}).youtubeChannelUrl || CONFIG.youtubeChannelUrl;
     else channelEl.classList.remove("archive-channel");
   }
 
@@ -458,5 +521,6 @@
       // e avança o modal para a etapa final.
       showStep("fim");
     });
+  }
   }
 })();
