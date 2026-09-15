@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel — Paletó em Brasília</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- ENTRADA -->
+<div class="entrada" data-entrada hidden>
+  <div class="entrada-caixa">
+    <img class="entrada-marca" src="../img/simbolo-circulo.svg" alt="">
+    <h1 class="entrada-titulo">Painel</h1>
+    <p class="entrada-sub">Edição do site da banda. Entre com a conta autorizada.</p>
+    <a class="botao botao-claro" href="/api/auth?acao=entrar">Entrar com Google</a>
+    <p class="entrada-erro" data-entrada-erro hidden></p>
+  </div>
+</div>
+
+<!-- PAINEL -->
+<div class="painel" data-painel hidden>
+  <header class="topo">
+    <div class="topo-marca">
+      <img src="../img/simbolo-circulo.svg" alt="">
+      <span>Painel</span>
+    </div>
+    <div class="topo-acoes">
+      <a class="link-discreto" href="../index.html" target="_blank" rel="noopener">Ver o site</a>
+      <span class="topo-email" data-email></span>
+      <button class="link-discreto" type="button" data-sair>Sair</button>
+    </div>
+  </header>
+
+  <nav class="abas" data-abas>
+    <button class="aba" type="button" data-aba="lancamento">Lançamento</button>
+    <button class="aba" type="button" data-aba="pronunciamentos">Pronunciamentos</button>
+    <button class="aba" type="button" data-aba="links">Links</button>
+    <button class="aba" type="button" data-aba="imagens">Imagens</button>
+    <button class="aba" type="button" data-aba="textos">Textos do site</button>
+    <button class="aba" type="button" data-aba="deck">Deck de imprensa</button>
+  </nav>
+
+  <main class="conteudo">
+    <section class="secao" data-painel-secao="lancamento">
+      <div class="secao-cabeca">
+        <h2>Lançamento</h2>
+        <p>Controla a tarja da capa, a ficha do single e para onde vão os botões de escuta.</p>
+      </div>
+      <div data-campos-lancamento></div>
+    </section>
+
+    <section class="secao" data-painel-secao="pronunciamentos" hidden>
+      <div class="secao-cabeca">
+        <h2>Pronunciamentos</h2>
+        <p>Os vídeos do Articulista. Linha sem ID de vídeo aparece apagada, como registro selado.</p>
+      </div>
+      <div data-campos-pronunciamentos></div>
+    </section>
+
+    <section class="secao" data-painel-secao="links" hidden>
+      <div class="secao-cabeca">
+        <h2>Links</h2>
+        <p>Endereços usados no rodapé e nas seções do site.</p>
+      </div>
+      <div data-campos-links></div>
+    </section>
+
+    <section class="secao" data-painel-secao="imagens" hidden>
+      <div class="secao-cabeca">
+        <h2>Imagens</h2>
+        <p>Trocar uma imagem publica o arquivo novo e atualiza o site. JPG, PNG, WebP ou AVIF, até 3 MB.</p>
+      </div>
+      <div data-campos-imagens></div>
+    </section>
+
+    <section class="secao" data-painel-secao="textos" hidden>
+      <div class="secao-cabeca">
+        <h2>Textos do site</h2>
+        <p>Cada campo tem a versão em português e em inglês. Em branco = mantém o texto original.</p>
+      </div>
+      <div data-campos-textos></div>
+    </section>
+
+    <section class="secao" data-painel-secao="deck" hidden>
+      <div class="secao-cabeca">
+        <h2>Deck de imprensa</h2>
+        <p>Os textos dos slides de <a href="../imprensa.html" target="_blank" rel="noopener">imprensa.html</a>, slide a slide. Em branco = mantém o texto original.</p>
+      </div>
+      <div data-campos-deck></div>
+    </section>
+  </main>
+
+  <footer class="rodape-acoes">
+    <div class="estado" data-estado></div>
+    <button class="botao botao-claro" type="button" data-salvar>Salvar alterações</button>
+  </footer>
+</div>
+
+<div class="carregando" data-carregando>Carregando…</div>
+
+<script src="admin.js"></script>
+</body>
+</html>
