@@ -144,6 +144,75 @@ function caminhoNoRepo(arquivo) {
   return `site/${arquivo}`;
 }
 
+// ---------- CREDENCIAIS ----------
+// Ficam na RAIZ do repositório, e não em site/: a Vercel publica apenas o
+// conteúdo de site/, então este arquivo existe para as funções lerem pela API
+// do GitHub, mas nunca é servido como página. Mesmo assim guarda só hashes.
+
+const ARQUIVO_CREDENCIAIS = "admin-credenciais.json";
+
+async function lerCredenciais() {
+  const url = `/repos/${repo()}/contents/${ARQUIVO_CREDENCIAIS}?ref=${encodeURIComponent(ramo())}`;
+  try {
+    const dados = await github(url);
+    return {
+      credenciais: JSON.parse(Buffer.from(dados.content, "base64").toString("utf8")),
+      sha: dados.sha
+    };
+  } catch (e) {
+    if (e.status === 404) return null;
+    throw e;
+  }
+}
+
+async function gravarCredenciais(credenciais, sha, mensagem) {
+  const corpo = {
+    message: mensagem,
+    content: Buffer.from(JSON.stringify(credenciais, null, 2) + "\n", "utf8").toString("base64"),
+    branch: ramo()
+  };
+  if (sha) corpo.sha = sha;
+  return github(`/repos/${repo()}/contents/${ARQUIVO_CREDENCIAIS}`, {
+    method: "PUT",
+    body: JSON.stringify(corpo)
+  });
+}
+
+// scrypt com sal por segredo: quem obtiver o arquivo não consegue voltar à
+// senha, e derivar cada tentativa custa caro o bastante para desencorajar
+// ataque de dicionário.
+function derivar(texto, salHex) {
+  return new Promise((resolve, reject) => {
+    crypto.scrypt(String(texto), Buffer.from(salHex, "hex"), 32, { N: 16384, r: 8, p: 1 },
+      (erro, chave) => (erro ? reject(erro) : resolve(chave.toString("hex"))));
+  });
+}
+
+async function criarSegredo(texto) {
+  const sal = crypto.randomBytes(16).toString("hex");
+  return { algoritmo: "scrypt", sal, hash: await derivar(texto, sal), em: new Date().toISOString() };
+}
+
+async function conferirSegredo(texto, registro) {
+  if (!registro || !registro.sal || !registro.hash) return false;
+  const calculado = Buffer.from(await derivar(texto, registro.sal), "hex");
+  const guardado = Buffer.from(registro.hash, "hex");
+  if (calculado.length !== guardado.length) return false;
+  return crypto.timingSafeEqual(calculado, guardado);
+}
+
+// Código de recuperação em blocos, mais fácil de anotar e de ditar por telefone.
+function gerarCodigoRecuperacao() {
+  const alfabeto = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // sem I, O, 0 e 1
+  const bytes = crypto.randomBytes(20);
+  let saida = "";
+  for (let i = 0; i < 20; i++) {
+    if (i > 0 && i % 5 === 0) saida += "-";
+    saida += alfabeto[bytes[i] % alfabeto.length];
+  }
+  return saida;
+}
+
 async function lerArquivo(arquivo) {
   const url = `/repos/${repo()}/contents/${encodeURI(caminhoNoRepo(arquivo))}?ref=${encodeURIComponent(ramo())}`;
   try {

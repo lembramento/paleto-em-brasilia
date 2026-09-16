@@ -73,6 +73,12 @@
     entradaForm: document.querySelector("[data-entrada-form]"),
     entradaBotao: document.querySelector("[data-entrada-botao]"),
     entradaGoogle: document.querySelector("[data-entrada-google]"),
+    cadastroForm: document.querySelector("[data-cadastro-form]"),
+    cadastroBotao: document.querySelector("[data-cadastro-botao]"),
+    recuperarForm: document.querySelector("[data-recuperar-form]"),
+    recuperarBotao: document.querySelector("[data-recuperar-botao]"),
+    modalCodigo: document.querySelector("[data-modal-codigo]"),
+    codigoValor: document.querySelector("[data-codigo-valor]"),
     painel: document.querySelector("[data-painel]"),
     email: document.querySelector("[data-email]"),
     estado: document.querySelector("[data-estado]"),
@@ -102,9 +108,13 @@
     el.carregando.hidden = true;
 
     if (!sessao || !sessao.autenticado) {
-      if (sessao && sessao.google) el.entradaGoogle.hidden = false;
+      var estadoPainel = await pegarJSON("/api/auth?acao=estado").catch(function () { return null; });
+      if (estadoPainel && estadoPainel.google) el.entradaGoogle.hidden = false;
+
+      // Sem senha cadastrada, a primeira tela é a de cadastro.
+      mostrarTelaEntrada(estadoPainel && estadoPainel.configurado === false ? "cadastro" : "entrar");
       el.entrada.hidden = false;
-      ligarFormularioEntrada();
+      ligarTelasDeEntrada();
       return;
     }
 
@@ -119,27 +129,172 @@
     }
   }
 
-  function ligarFormularioEntrada() {
-    el.entradaForm.addEventListener("submit", async function (evento) {
+  function mostrarTelaEntrada(qual) {
+    el.entradaForm.hidden = qual !== "entrar";
+    el.cadastroForm.hidden = qual !== "cadastro";
+    el.recuperarForm.hidden = qual !== "recuperar";
+    el.entradaErro.hidden = true;
+  }
+
+  function erroEntrada(texto) {
+    el.entradaErro.textContent = texto;
+    el.entradaErro.hidden = false;
+  }
+
+  // Mostra o código uma única vez e só libera depois da confirmação — perder
+  // este código significa depender da Vercel para voltar a entrar.
+  function mostrarCodigo(codigo) {
+    return new Promise(function (resolve) {
+      el.codigoValor.textContent = codigo;
+      el.modalCodigo.hidden = false;
+
+      var confirma = document.querySelector("[data-codigo-confirma]");
+      var fechar = document.querySelector("[data-fechar-codigo]");
+      var copiar = document.querySelector("[data-copiar-codigo]");
+      confirma.checked = false;
+      fechar.disabled = true;
+
+      confirma.onchange = function () { fechar.disabled = !confirma.checked; };
+      copiar.onclick = function () {
+        navigator.clipboard.writeText(codigo).then(function () {
+          copiar.textContent = "Copiado";
+          setTimeout(function () { copiar.textContent = "Copiar"; }, 1800);
+        }).catch(function () { copiar.textContent = "Copie manualmente"; });
+      };
+      fechar.onclick = function () {
+        el.modalCodigo.hidden = true;
+        resolve();
+      };
+    });
+  }
+
+  async function comBotao(botao, textoOcupado, acao) {
+    var original = botao.textContent;
+    botao.disabled = true;
+    botao.textContent = textoOcupado;
+    try {
+      await acao();
+    } finally {
+      botao.disabled = false;
+      botao.textContent = original;
+    }
+  }
+
+  function ligarTelasDeEntrada() {
+    document.querySelector("[data-ir-recuperar]").addEventListener("click", function () {
+      mostrarTelaEntrada("recuperar");
+    });
+    document.querySelector("[data-ir-entrar]").addEventListener("click", function () {
+      mostrarTelaEntrada("entrar");
+    });
+
+    el.entradaForm.addEventListener("submit", function (evento) {
       evento.preventDefault();
       el.entradaErro.hidden = true;
-      el.entradaBotao.disabled = true;
-      el.entradaBotao.textContent = "Entrando…";
+      comBotao(el.entradaBotao, "Entrando…", async function () {
+        try {
+          await enviarJSON("/api/auth?acao=senha", "POST", {
+            email: el.entradaForm.email.value.trim(),
+            senha: el.entradaForm.senha.value
+          });
+          location.reload();
+        } catch (e) {
+          erroEntrada(e.message);
+          el.entradaForm.senha.value = "";
+          el.entradaForm.senha.focus();
+        }
+      });
+    });
 
-      try {
-        await enviarJSON("/api/auth?acao=senha", "POST", {
-          email: el.entradaForm.email.value.trim(),
-          senha: el.entradaForm.senha.value
-        });
-        location.reload();
-      } catch (e) {
-        el.entradaErro.textContent = e.message;
-        el.entradaErro.hidden = false;
-        el.entradaBotao.disabled = false;
-        el.entradaBotao.textContent = "Entrar";
-        el.entradaForm.senha.value = "";
-        el.entradaForm.senha.focus();
+    el.cadastroForm.addEventListener("submit", function (evento) {
+      evento.preventDefault();
+      el.entradaErro.hidden = true;
+
+      if (el.cadastroForm.senha.value !== el.cadastroForm.senha2.value) {
+        return erroEntrada("as duas senhas não são iguais");
       }
+
+      comBotao(el.cadastroBotao, "Cadastrando…", async function () {
+        try {
+          var r = await enviarJSON("/api/auth?acao=cadastrar", "POST", {
+            email: el.cadastroForm.email.value.trim(),
+            senha: el.cadastroForm.senha.value
+          });
+          await mostrarCodigo(r.codigo);
+          location.reload();
+        } catch (e) {
+          erroEntrada(e.message);
+        }
+      });
+    });
+
+    el.recuperarForm.addEventListener("submit", function (evento) {
+      evento.preventDefault();
+      el.entradaErro.hidden = true;
+      comBotao(el.recuperarBotao, "Verificando…", async function () {
+        try {
+          var r = await enviarJSON("/api/auth?acao=recuperar", "POST", {
+            email: el.recuperarForm.email.value.trim(),
+            codigo: el.recuperarForm.codigo.value.trim(),
+            senhaNova: el.recuperarForm.senhaNova.value
+          });
+          await mostrarCodigo(r.codigo);
+          location.reload();
+        } catch (e) {
+          erroEntrada(e.message);
+        }
+      });
+    });
+  }
+
+  function ligarConta() {
+    var form = document.querySelector("[data-trocar-form]");
+    var estadoTroca = document.querySelector("[data-troca-estado]");
+    var botao = document.querySelector("[data-trocar-botao]");
+
+    form.addEventListener("submit", function (evento) {
+      evento.preventDefault();
+      estadoTroca.className = "estado";
+
+      var nova = document.querySelector("#troca-nova").value;
+      if (nova !== document.querySelector("#troca-nova2").value) {
+        estadoTroca.textContent = "as duas senhas não são iguais";
+        estadoTroca.className = "estado erro";
+        return;
+      }
+
+      comBotao(botao, "Trocando…", async function () {
+        try {
+          var r = await enviarJSON("/api/auth?acao=trocar", "POST", {
+            senhaAtual: document.querySelector("#troca-atual").value,
+            senhaNova: nova
+          });
+          form.reset();
+          estadoTroca.textContent = "Senha trocada. Ela já vale para todo mundo.";
+          estadoTroca.className = "estado ok";
+          if (r.codigo) await mostrarCodigo(r.codigo);
+        } catch (e) {
+          estadoTroca.textContent = e.message;
+          estadoTroca.className = "estado erro";
+        }
+      });
+    });
+
+    var botaoCodigo = document.querySelector("[data-novo-codigo]");
+    var estadoCodigo = document.querySelector("[data-codigo-estado]");
+    botaoCodigo.addEventListener("click", function () {
+      if (!confirm("Gerar um código novo invalida o anterior. Continuar?")) return;
+      comBotao(botaoCodigo, "Gerando…", async function () {
+        try {
+          var r = await enviarJSON("/api/auth?acao=novo-codigo", "POST", {});
+          estadoCodigo.className = "estado ok";
+          estadoCodigo.textContent = "Código novo gerado. O anterior não vale mais.";
+          await mostrarCodigo(r.codigo);
+        } catch (e) {
+          estadoCodigo.className = "estado erro";
+          estadoCodigo.textContent = e.message;
+        }
+      });
     });
   }
 
@@ -166,6 +321,7 @@
     montarTextos();
     montarDeck();
     ligarAbas();
+    ligarConta();
 
     el.salvar.addEventListener("click", salvar);
     document.querySelector("[data-sair]").addEventListener("click", sair);

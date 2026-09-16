@@ -20,7 +20,8 @@
     <h1 class="entrada-titulo">Painel</h1>
     <p class="entrada-sub">Edição do site da banda.</p>
 
-    <form class="entrada-form" data-entrada-form>
+    <!-- ENTRAR -->
+    <form class="entrada-form" data-entrada-form hidden>
       <label class="rotulo" for="entrada-email">E-mail</label>
       <input id="entrada-email" type="email" name="email" autocomplete="username" required>
 
@@ -28,6 +29,37 @@
       <input id="entrada-senha" type="password" name="senha" autocomplete="current-password" required>
 
       <button class="botao botao-claro" type="submit" data-entrada-botao>Entrar</button>
+      <button class="entrada-link" type="button" data-ir-recuperar>Esqueci a senha</button>
+    </form>
+
+    <!-- CADASTRAR (primeira vez) -->
+    <form class="entrada-form" data-cadastro-form hidden>
+      <label class="rotulo" for="cadastro-email">E-mail</label>
+      <input id="cadastro-email" type="email" name="email" autocomplete="username" required>
+
+      <label class="rotulo" for="cadastro-senha">Escolha uma senha</label>
+      <input id="cadastro-senha" type="password" name="senha" autocomplete="new-password" required minlength="10">
+      <p class="dica">Pelo menos 10 caracteres. Uma frase é mais segura e mais fácil de lembrar.</p>
+
+      <label class="rotulo" for="cadastro-senha2">Repita a senha</label>
+      <input id="cadastro-senha2" type="password" name="senha2" autocomplete="new-password" required>
+
+      <button class="botao botao-claro" type="submit" data-cadastro-botao>Cadastrar senha</button>
+    </form>
+
+    <!-- RECUPERAR -->
+    <form class="entrada-form" data-recuperar-form hidden>
+      <label class="rotulo" for="rec-email">E-mail</label>
+      <input id="rec-email" type="email" name="email" autocomplete="username" required>
+
+      <label class="rotulo" for="rec-codigo">Código de recuperação</label>
+      <input id="rec-codigo" type="text" name="codigo" placeholder="XXXXX-XXXXX-XXXXX-XXXXX" required>
+
+      <label class="rotulo" for="rec-senha">Nova senha</label>
+      <input id="rec-senha" type="password" name="senhaNova" autocomplete="new-password" required minlength="10">
+
+      <button class="botao botao-claro" type="submit" data-recuperar-botao>Definir nova senha</button>
+      <button class="entrada-link" type="button" data-ir-entrar>Voltar</button>
     </form>
 
     <a class="entrada-google" href="/api/auth?acao=entrar" data-entrada-google hidden>ou entrar com Google</a>
@@ -56,6 +88,7 @@
     <button class="aba" type="button" data-aba="imagens">Imagens</button>
     <button class="aba" type="button" data-aba="textos">Textos do site</button>
     <button class="aba" type="button" data-aba="deck">Deck de imprensa</button>
+    <button class="aba" type="button" data-aba="conta">Senha</button>
   </nav>
 
   <main class="conteudo">
@@ -106,12 +139,63 @@
       </div>
       <div data-campos-deck></div>
     </section>
+    <section class="secao" data-painel-secao="conta" hidden>
+      <div class="secao-cabeca">
+        <h2>Senha</h2>
+        <p>A senha é a mesma para todo mundo da banda. Trocar aqui vale para todos, na hora.</p>
+      </div>
+
+      <form class="form-conta" data-trocar-form>
+        <div class="campo">
+          <label for="troca-atual">Senha atual</label>
+          <input id="troca-atual" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="campo">
+          <label for="troca-nova">Nova senha</label>
+          <input id="troca-nova" type="password" autocomplete="new-password" required minlength="10">
+          <p class="dica">Pelo menos 10 caracteres. Prefira uma frase.</p>
+        </div>
+        <div class="campo">
+          <label for="troca-nova2">Repita a nova senha</label>
+          <input id="troca-nova2" type="password" autocomplete="new-password" required>
+        </div>
+        <button class="botao botao-vazado" type="submit" data-trocar-botao>Trocar senha</button>
+        <p class="estado" data-troca-estado></p>
+      </form>
+
+      <div class="grupo-slide">
+        <h3>Código de recuperação</h3>
+        <p class="dica" style="margin-bottom:14px">
+          É o que destrava o painel se todos esquecerem a senha. Gerar um novo
+          invalida o anterior — guarde o código em lugar seguro, porque ele é
+          mostrado uma única vez.
+        </p>
+        <button class="botao botao-vazado" type="button" data-novo-codigo>Gerar novo código</button>
+        <p class="estado" data-codigo-estado></p>
+      </div>
+    </section>
   </main>
 
   <footer class="rodape-acoes">
     <div class="estado" data-estado></div>
     <button class="botao botao-claro" type="button" data-salvar>Salvar alterações</button>
   </footer>
+</div>
+
+<!-- CÓDIGO DE RECUPERAÇÃO — aparece uma única vez -->
+<div class="modal-codigo" data-modal-codigo hidden>
+  <div class="modal-codigo-caixa">
+    <h2>Guarde este código</h2>
+    <p>É o que permite recuperar o acesso se a senha for esquecida. Ele não será
+       mostrado de novo — anote agora, no gerenciador de senhas ou no papel.</p>
+    <div class="codigo" data-codigo-valor></div>
+    <button class="botao botao-vazado" type="button" data-copiar-codigo>Copiar</button>
+    <label class="switch" style="margin:22px 0 18px">
+      <input type="checkbox" data-codigo-confirma>
+      <span>Guardei o código em lugar seguro</span>
+    </label>
+    <button class="botao botao-claro" type="button" data-fechar-codigo disabled>Continuar</button>
+  </div>
 </div>
 
 <div class="carregando" data-carregando>Carregando…</div>
