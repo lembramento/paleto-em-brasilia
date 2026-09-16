@@ -116,8 +116,8 @@
     var [site, deck, htmlSite, htmlDeck] = await Promise.all([
       pegarJSON("/api/conteudo?arquivo=site.json"),
       pegarJSON("/api/conteudo?arquivo=imprensa.json"),
-      pegarTexto("../index.html"),
-      pegarTexto("../imprensa.html")
+      pegarTexto("/index.html"),
+      pegarTexto("/imprensa.html")
     ]);
 
     estado.site = { dados: site.dados || {}, sha: site.sha };
@@ -487,7 +487,7 @@
     var previa = document.createElement("img");
     previa.className = "imagem-previa";
     previa.alt = "";
-    if (caminho) previa.src = "../" + caminho;
+    if (caminho) previa.src = "/" + caminho;
     caixa.appendChild(previa);
 
     var corpo = document.createElement("div");
@@ -529,7 +529,7 @@
       botao.textContent = "Enviando…";
       try {
         var caminhoNovo = await enviarImagem(arquivo);
-        previa.src = "../" + caminhoNovo;
+        previa.src = "/" + caminhoNovo;
         atual.textContent = caminhoNovo;
         aoTrocar(caminhoNovo);
         avisar("Imagem enviada. Ela entra no ar junto com as próximas alterações.", "ok");
