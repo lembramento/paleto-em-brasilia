@@ -45,7 +45,7 @@ No projeto → **Settings → Environment Variables**, cadastre para *Production
 | `GOOGLE_CLIENT_ID` | ID do cliente do passo 1 |
 | `GOOGLE_CLIENT_SECRET` | chave secreta do passo 1 |
 | `SESSION_SECRET` | texto aleatório longo, de 40 caracteres ou mais |
-| `ADMIN_EMAILS` | e-mails autorizados, separados por vírgula |
+| `ADMIN_EMAILS` | `palletoembrasilia@gmail.com` (dois L em "palleto" — é assim mesmo). Outros e-mails entram separados por vírgula |
 | `GITHUB_TOKEN` | token do passo 2 |
 | `GITHUB_REPO` | `lembramento/paleto-em-brasilia` |
 | `GITHUB_BRANCH` | `main` |
