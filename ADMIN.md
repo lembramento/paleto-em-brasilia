@@ -81,9 +81,8 @@ compartilhada — é o caminho mais seguro quando a banda quiser migrar.
 
 ## Parte 2 — Usar o painel
 
-Entre em `/admin`, clique em **Entrar com Google** e escolha a conta autorizada.
-As alterações de todas as abas são gravadas juntas pelo botão **Salvar
-alterações**, no rodapé.
+Entre em `/admin` com o e-mail autorizado e a senha. As alterações de todas as
+abas são gravadas juntas pelo botão **Salvar alterações**, no rodapé.
 
 ### Lançamento
 
