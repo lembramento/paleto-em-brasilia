@@ -109,8 +109,26 @@
     el.href = destinoLancamento;
   });
 
+  var LINKS = CONFIG.links || {};
+  var instagramUrl = LINKS.instagramUrl || CONFIG.instagramUrl || "";
+  var tiktokUrl = LINKS.tiktokUrl || CONFIG.tiktokUrl || "";
+  var youtubeUrl = LINKS.youtubeChannelUrl || CONFIG.youtubeChannelUrl || "";
+
   var instagramEl = document.querySelector("[data-instagram-link]");
-  if (instagramEl) instagramEl.href = (CONFIG.links || {}).instagramUrl || CONFIG.instagramUrl || "#";
+  if (instagramEl) instagramEl.href = instagramUrl || "#";
+
+  // Redes na seção azul: rede sem link sai da linha, e a linha inteira some se
+  // nenhuma sobrar.
+  var redes = { instagram: instagramUrl, tiktok: tiktokUrl, youtube: youtubeUrl };
+  var listaRedes = document.querySelector("[data-social-lista]");
+  if (listaRedes) {
+    var restantes = 0;
+    listaRedes.querySelectorAll("[data-social]").forEach(function (el) {
+      var url = redes[el.dataset.social];
+      if (url) { el.href = url; restantes++; } else { el.remove(); }
+    });
+    if (!restantes) listaRedes.remove();
+  }
 
   var pressEl = document.querySelector("[data-press-link]");
   if (pressEl) {
@@ -292,7 +310,7 @@
 
   var channelEl = document.querySelector("[data-youtube-channel]");
   if (channelEl) {
-    if ((CONFIG.links || {}).youtubeChannelUrl || CONFIG.youtubeChannelUrl) channelEl.href = (CONFIG.links || {}).youtubeChannelUrl || CONFIG.youtubeChannelUrl;
+    if (youtubeUrl) channelEl.href = youtubeUrl;
     else channelEl.classList.remove("archive-channel");
   }
 

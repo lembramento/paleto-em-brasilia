@@ -449,7 +449,9 @@
     var alvo = document.querySelector("[data-campos-links]");
     alvo.innerHTML = "";
     alvo.appendChild(campoTexto("Instagram", links.instagramUrl, function (v) { links.instagramUrl = v; }));
-    alvo.appendChild(campoTexto("Canal no YouTube", links.youtubeChannelUrl, function (v) { links.youtubeChannelUrl = v; }));
+    alvo.appendChild(campoTexto("TikTok", links.tiktokUrl, function (v) { links.tiktokUrl = v; }));
+    alvo.appendChild(campoTexto("Canal no YouTube", links.youtubeChannelUrl, function (v) { links.youtubeChannelUrl = v; },
+      "Os três links acima viram os ícones de redes na seção azul. Campo em branco tira o ícone."));
     alvo.appendChild(campoTexto("Botão imprensa (rodapé)", links.pressReleaseUrl, function (v) { links.pressReleaseUrl = v; },
       "Pode ser uma página do site (imprensa.html) ou um link externo."));
   }

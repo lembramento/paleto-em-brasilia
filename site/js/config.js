@@ -62,7 +62,10 @@ window.SITE_CONFIG = {
   },
 
   // Perfil do Instagram da banda
-  instagramUrl: "https://instagram.com/",
+  instagramUrl: "https://www.instagram.com/paletoembrasilia",
+
+  // Perfil do TikTok da banda
+  tiktokUrl: "https://www.tiktok.com/@paleto.brasilia",
 
   // Link da apresentação para parceiros e imprensa (link discreto no rodapé). "#" = link inativo.
   pressReleaseUrl: "imprensa.html",
@@ -71,7 +74,7 @@ window.SITE_CONFIG = {
   mostrarArquivo: true,
 
   // Canal do YouTube da banda
-  youtubeChannelUrl: "https://youtube.com/@paletoembrasilia.oficial",
+  youtubeChannelUrl: "https://www.youtube.com/@paletoembrasilia.oficial",
 
   // Pronunciamentos. Para ativar uma linha, cole o ID do vídeo do YouTube em
   // "youtubeId" — é o trecho de 11 caracteres depois de "watch?v=" (vídeo

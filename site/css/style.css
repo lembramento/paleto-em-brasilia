@@ -566,6 +566,35 @@ a.btn-solid { text-decoration: none; display: inline-block; }
 
 .form-msg { min-height: 20px; font-family: var(--mono); font-size: 13px; color: #ffffff; }
 
+/* Redes sociais, sobre o azul */
+.social { display: flex; flex-direction: column; gap: 16px; margin-top: 10px; }
+
+.social-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #c3ccff;
+}
+
+.social-icones { display: flex; gap: 14px; }
+
+.social-item {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .45);
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.social-item:hover { background: #fff; border-color: #fff; color: var(--blue); }
+
+.social-item:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+.social-icone { width: 26px; height: 26px; display: block; }
+
 /* ---------- FOOTER ---------- */
 .footer {
   padding: 56px 44px;
