@@ -66,6 +66,24 @@ a { color: var(--blue-light); }
 
 .entrada-sub { margin: 0 0 26px; color: var(--suave); font-size: 14px; line-height: 1.5; }
 
+.entrada-form { text-align: left; margin-bottom: 18px; }
+.entrada-form .rotulo { margin-top: 14px; }
+.entrada-form .rotulo:first-child { margin-top: 0; }
+.entrada-form input { margin-bottom: 4px; }
+.entrada-form .botao { width: 100%; margin-top: 20px; }
+
+.entrada-google {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--suave);
+  text-decoration: none;
+}
+
+.entrada-google:hover { color: var(--ink); }
+
 .entrada-erro {
   margin: 20px 0 0;
   font-family: var(--mono);
@@ -173,7 +191,7 @@ a { color: var(--blue-light); }
 
 .dica { margin: 6px 0 0; font-size: 12.5px; line-height: 1.5; color: #6e6e6a; }
 
-input[type="text"], input[type="url"], textarea, select {
+input[type="text"], input[type="url"], input[type="email"], input[type="password"], textarea, select {
   width: 100%;
   background: #08080a;
   border: 1px solid var(--linha);

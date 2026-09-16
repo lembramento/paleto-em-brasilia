@@ -18,8 +18,19 @@
   <div class="entrada-caixa">
     <img class="entrada-marca" src="/img/simbolo-circulo.svg" alt="">
     <h1 class="entrada-titulo">Painel</h1>
-    <p class="entrada-sub">Edição do site da banda. Entre com a conta autorizada.</p>
-    <a class="botao botao-claro" href="/api/auth?acao=entrar">Entrar com Google</a>
+    <p class="entrada-sub">Edição do site da banda.</p>
+
+    <form class="entrada-form" data-entrada-form>
+      <label class="rotulo" for="entrada-email">E-mail</label>
+      <input id="entrada-email" type="email" name="email" autocomplete="username" required>
+
+      <label class="rotulo" for="entrada-senha">Senha</label>
+      <input id="entrada-senha" type="password" name="senha" autocomplete="current-password" required>
+
+      <button class="botao botao-claro" type="submit" data-entrada-botao>Entrar</button>
+    </form>
+
+    <a class="entrada-google" href="/api/auth?acao=entrar" data-entrada-google hidden>ou entrar com Google</a>
     <p class="entrada-erro" data-entrada-erro hidden></p>
   </div>
 </div>

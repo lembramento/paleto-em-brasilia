@@ -1,13 +1,19 @@
 "use strict";
 
-// Autenticação do painel via Google, em três paradas numa função só:
-//   /api/auth?acao=entrar   → manda para a tela de consentimento do Google
-//   /api/auth?acao=retorno  → o Google volta aqui com o código; vira sessão
-//   /api/auth?acao=quem     → diz quem está logado (o painel chama ao abrir)
-//   /api/auth?acao=sair     → apaga a sessão
+// Autenticação do painel. Dois caminhos, na mesma função:
 //
-// Só e-mails listados em ADMIN_EMAILS entram. O segredo do Google e o token do
-// GitHub ficam apenas aqui no servidor; o navegador nunca os vê.
+//   e-mail + senha (ativo)
+//     /api/auth?acao=senha   POST {email, senha} → cria a sessão
+//
+//   Google (opcional, liga sozinho se as variáveis existirem)
+//     /api/auth?acao=entrar  → tela de consentimento do Google
+//     /api/auth?acao=retorno → o Google volta aqui com o código
+//
+//   /api/auth?acao=quem → quem está logado (o painel chama ao abrir)
+//   /api/auth?acao=sair → apaga a sessão
+//
+// Em ambos, entrar exige estar em ADMIN_EMAILS. A senha e o segredo do Google
+// ficam só aqui no servidor; o navegador recebe apenas o cookie de sessão.
 
 const crypto = require("crypto");
 const {
@@ -16,6 +22,47 @@ const {
 } = require("./_lib");
 
 const ESCOPO = "openid email profile";
+
+// Freio de força bruta. Serverless não compartilha memória entre instâncias,
+// então isto atrasa um ataque, não o impede — a defesa que vale mesmo é uma
+// senha longa. Ver a nota em ADMIN.md.
+const TENTATIVAS = new Map();
+const LIMITE = 8;
+const JANELA_MS = 15 * 60 * 1000;
+
+function bloqueado(chave) {
+  const reg = TENTATIVAS.get(chave);
+  if (!reg) return false;
+  if (Date.now() - reg.desde > JANELA_MS) { TENTATIVAS.delete(chave); return false; }
+  return reg.erros >= LIMITE;
+}
+
+function registrarErro(chave) {
+  const reg = TENTATIVAS.get(chave);
+  if (!reg || Date.now() - reg.desde > JANELA_MS) {
+    TENTATIVAS.set(chave, { erros: 1, desde: Date.now() });
+  } else {
+    reg.erros += 1;
+  }
+}
+
+function iguais(a, b) {
+  const x = Buffer.from(String(a));
+  const y = Buffer.from(String(b));
+  // Tamanhos diferentes vazam informação em comparação direta; o hash iguala o
+  // comprimento antes de comparar em tempo constante.
+  const hx = crypto.createHash("sha256").update(x).digest();
+  const hy = crypto.createHash("sha256").update(y).digest();
+  return crypto.timingSafeEqual(hx, hy);
+}
+
+function espera(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+function googleConfigurado() {
+  return Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
+}
 
 function urlBase(req) {
   const host = req.headers["x-forwarded-host"] || req.headers.host;
@@ -33,8 +80,15 @@ module.exports = async function handler(req, res) {
   try {
     if (acao === "quem") {
       const sessao = lerSessao(req);
-      if (!sessao || !autorizado(sessao.email)) return res.status(401).json({ autenticado: false });
-      return res.status(200).json({ autenticado: true, email: sessao.email, nome: sessao.nome || "" });
+      if (!sessao || !autorizado(sessao.email)) {
+        return res.status(401).json({ autenticado: false, google: googleConfigurado() });
+      }
+      return res.status(200).json({
+        autenticado: true,
+        email: sessao.email,
+        nome: sessao.nome || "",
+        google: googleConfigurado()
+      });
     }
 
     if (acao === "sair") {
@@ -42,9 +96,46 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ ok: true });
     }
 
+    /* ---------- E-MAIL + SENHA ---------- */
+    if (acao === "senha") {
+      if (req.method !== "POST") {
+        res.setHeader("Allow", "POST");
+        return res.status(405).json({ erro: "método não permitido" });
+      }
+
+      const senhaCerta = process.env.ADMIN_SENHA;
+      if (!senhaCerta) {
+        return res.status(500).json({ erro: "ADMIN_SENHA não está configurada na Vercel" });
+      }
+      if (emailsAutorizados().length === 0) {
+        return res.status(500).json({ erro: "ADMIN_EMAILS não está configurada na Vercel" });
+      }
+
+      const { email, senha } = req.body || {};
+      const origem = (req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "sem-ip";
+
+      if (bloqueado(origem)) {
+        return res.status(429).json({ erro: "tentativas demais — espere 15 minutos" });
+      }
+
+      // A verificação de e-mail e a de senha são avaliadas juntas para não
+      // revelar qual das duas estava errada.
+      const ok = autorizado(email) && iguais(senha || "", senhaCerta);
+
+      if (!ok) {
+        registrarErro(origem);
+        await espera(700);
+        return res.status(401).json({ erro: "e-mail ou senha incorretos" });
+      }
+
+      TENTATIVAS.delete(origem);
+      definirCookie(res, assinarSessao({ email: String(email).toLowerCase(), nome: "" }), 60 * 60 * 12);
+      return res.status(200).json({ ok: true });
+    }
+
+    /* ---------- GOOGLE ---------- */
     if (acao === "entrar") {
-      const clientId = process.env.GOOGLE_CLIENT_ID;
-      if (!clientId) return res.status(500).send("GOOGLE_CLIENT_ID não configurado");
+      if (!googleConfigurado()) return res.status(500).send("Login com Google não configurado");
 
       // "state" amarra o retorno a este navegador: sem ele, um terceiro poderia
       // completar o login por você (CSRF no fluxo OAuth).
@@ -53,7 +144,7 @@ module.exports = async function handler(req, res) {
         `pb_state=${state}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600`);
 
       const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
-      url.searchParams.set("client_id", clientId);
+      url.searchParams.set("client_id", process.env.GOOGLE_CLIENT_ID);
       url.searchParams.set("redirect_uri", redirecionarPara(req));
       url.searchParams.set("response_type", "code");
       url.searchParams.set("scope", ESCOPO);
@@ -109,8 +200,6 @@ module.exports = async function handler(req, res) {
 
     return res.status(400).json({ erro: "ação desconhecida" });
   } catch (e) {
-    // Configuração incompleta é o erro mais provável aqui — sinaliza sem vazar detalhe.
-    const faltando = emailsAutorizados().length === 0 ? " (ADMIN_EMAILS vazio)" : "";
-    return res.status(500).json({ erro: "falha na autenticação" + faltando });
+    return res.status(500).json({ erro: "falha na autenticação" });
   }
 };

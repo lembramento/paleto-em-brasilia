@@ -70,6 +70,9 @@
     carregando: document.querySelector("[data-carregando]"),
     entrada: document.querySelector("[data-entrada]"),
     entradaErro: document.querySelector("[data-entrada-erro]"),
+    entradaForm: document.querySelector("[data-entrada-form]"),
+    entradaBotao: document.querySelector("[data-entrada-botao]"),
+    entradaGoogle: document.querySelector("[data-entrada-google]"),
     painel: document.querySelector("[data-painel]"),
     email: document.querySelector("[data-email]"),
     estado: document.querySelector("[data-estado]"),
@@ -93,11 +96,15 @@
       history.replaceState(null, "", location.pathname);
     }
 
-    var sessao = await pegarJSON("/api/auth?acao=quem").catch(function () { return null; });
+    // O 401 aqui é o caso normal de quem ainda não entrou, então a resposta
+    // interessa mesmo sem sucesso: é ela que diz se o Google está ligado.
+    var sessao = await pegarJSON("/api/auth?acao=quem").catch(function (e) { return e.dados || null; });
     el.carregando.hidden = true;
 
     if (!sessao || !sessao.autenticado) {
+      if (sessao && sessao.google) el.entradaGoogle.hidden = false;
       el.entrada.hidden = false;
+      ligarFormularioEntrada();
       return;
     }
 
@@ -110,6 +117,30 @@
     } catch (e) {
       avisar("Não foi possível carregar o conteúdo: " + e.message, "erro");
     }
+  }
+
+  function ligarFormularioEntrada() {
+    el.entradaForm.addEventListener("submit", async function (evento) {
+      evento.preventDefault();
+      el.entradaErro.hidden = true;
+      el.entradaBotao.disabled = true;
+      el.entradaBotao.textContent = "Entrando…";
+
+      try {
+        await enviarJSON("/api/auth?acao=senha", "POST", {
+          email: el.entradaForm.email.value.trim(),
+          senha: el.entradaForm.senha.value
+        });
+        location.reload();
+      } catch (e) {
+        el.entradaErro.textContent = e.message;
+        el.entradaErro.hidden = false;
+        el.entradaBotao.disabled = false;
+        el.entradaBotao.textContent = "Entrar";
+        el.entradaForm.senha.value = "";
+        el.entradaForm.senha.focus();
+      }
+    });
   }
 
   async function carregarTudo() {
@@ -665,9 +696,13 @@
   /* ---------- REDE ---------- */
   async function pegarJSON(url) {
     var r = await fetch(url, { cache: "no-store" });
-    if (r.status === 401) throw new Error("sessão expirada");
     var dados = await r.json().catch(function () { return {}; });
-    if (!r.ok) throw new Error(dados.erro || ("erro " + r.status));
+    if (!r.ok) {
+      var erro = new Error(dados.erro || (r.status === 401 ? "sessão expirada" : "erro " + r.status));
+      erro.dados = dados;  // o corpo do 401 ainda traz informação útil
+      erro.status = r.status;
+      throw erro;
+    }
     return dados;
   }
 

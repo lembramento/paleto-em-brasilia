@@ -10,24 +10,10 @@ minutos. Como tudo fica versionado, qualquer alteração pode ser desfeita.
 
 ## Parte 1 — Ligar o painel (uma vez só)
 
-Enquanto os três itens abaixo não existirem, `/admin` mostra a tela de entrada
-mas o login não conclui.
+Enquanto as variáveis abaixo não existirem na Vercel, `/admin` mostra a tela de
+entrada mas o login não conclui.
 
-### 1. Credencial do Google
-
-1. Acesse **console.cloud.google.com** com a conta da banda e crie um projeto
-   (nome livre, ex.: "Site Paletó").
-2. Menu **APIs e serviços → Tela de permissão OAuth**. Tipo **Externo**, nome do
-   app "Painel Paletó em Brasília", e-mail de suporte e de contato: o da banda.
-   Publique o app (senão só contas de teste entram).
-3. Menu **Credenciais → Criar credenciais → ID do cliente OAuth**, tipo
-   **Aplicativo da Web**. Em **URIs de redirecionamento autorizados**, cole os
-   dois:
-   - `https://paletoembrasilia.com.br/api/auth?acao=retorno`
-   - `https://www.paletoembrasilia.com.br/api/auth?acao=retorno`
-4. Guarde o **ID do cliente** e a **chave secreta**.
-
-### 2. Token do GitHub
+### 1. Token do GitHub
 
 1. Em **github.com → Settings → Developer settings → Personal access tokens →
    Fine-grained tokens → Generate new token**.
@@ -36,17 +22,16 @@ mas o login não conclui.
 4. Validade: defina um prazo e anote — quando vencer, o painel para de gravar e
    é só gerar outro e atualizar a variável.
 
-### 3. Variáveis na Vercel
+### 2. Variáveis na Vercel
 
 No projeto → **Settings → Environment Variables**, cadastre para *Production*:
 
 | Variável | Valor |
 |---|---|
-| `GOOGLE_CLIENT_ID` | ID do cliente do passo 1 |
-| `GOOGLE_CLIENT_SECRET` | chave secreta do passo 1 |
-| `SESSION_SECRET` | texto aleatório longo, de 40 caracteres ou mais |
 | `ADMIN_EMAILS` | `palletoembrasilia@gmail.com` (dois L em "palleto" — é assim mesmo). Outros e-mails entram separados por vírgula |
-| `GITHUB_TOKEN` | token do passo 2 |
+| `ADMIN_SENHA` | a senha de acesso ao painel — veja a nota abaixo |
+| `SESSION_SECRET` | texto aleatório longo, de 40 caracteres ou mais, diferente da senha |
+| `GITHUB_TOKEN` | token do passo 1 |
 | `GITHUB_REPO` | `lembramento/paleto-em-brasilia` |
 | `GITHUB_BRANCH` | `main` |
 
@@ -56,13 +41,43 @@ deploy.
 Para conferir se as funções subiram: **Deployments → (último) → Functions**.
 Devem aparecer `api/auth`, `api/conteudo` e `api/upload`.
 
+### Sobre a senha
+
+A senha é **uma só, compartilhada** por quem tem acesso. Isso traz três
+consequências que valem ser ditas:
+
+- **Escolha uma frase longa**, não uma palavra. O painel atrasa cada tentativa
+  errada e bloqueia por 15 minutos após 8 erros seguidos, mas esse bloqueio vive
+  na memória de cada instância da Vercel: quem insistir de vários lugares
+  contorna. O que realmente protege é o comprimento da senha.
+- **Trocar a senha** é editar `ADMIN_SENHA` e fazer Redeploy. Todo mundo passa a
+  usar a nova.
+- **Quando alguém sair da banda**, troque a senha — não basta tirar o e-mail,
+  porque a senha que essa pessoa conhece continua valendo para os outros
+  e-mails da lista.
+
+O e-mail também precisa bater: entra quem souber a senha **e** estiver em
+`ADMIN_EMAILS`.
+
 ### Dar acesso a outra pessoa da banda
 
-Some o e-mail dela em `ADMIN_EMAILS`, separado por vírgula, e faça Redeploy.
-Nada mais: ela entra com a própria conta Google. Para tirar o acesso, remova o
-e-mail e faça Redeploy — a sessão dela cai em até 12 horas.
+Some o e-mail dela em `ADMIN_EMAILS`, separado por vírgula, faça Redeploy e
+passe a senha. Para tirar o acesso, remova o e-mail, troque a senha e faça
+Redeploy — a sessão dela cai em até 12 horas.
 
----
+### Opcional: login com Google
+
+O painel também aceita entrar com Google, e o botão aparece sozinho na tela de
+entrada se as duas variáveis existirem: `GOOGLE_CLIENT_ID` e
+`GOOGLE_CLIENT_SECRET`, criadas em **console.cloud.google.com → APIs e serviços
+→ Credenciais → ID do cliente OAuth**, tipo *Aplicativo da Web*, com estes URIs
+de redirecionamento:
+
+- `https://paletoembrasilia.com.br/api/auth?acao=retorno`
+- `https://www.paletoembrasilia.com.br/api/auth?acao=retorno`
+
+Com o Google ligado, cada pessoa entra com a própria conta e não existe senha
+compartilhada — é o caminho mais seguro quando a banda quiser migrar.
 
 ## Parte 2 — Usar o painel
 
