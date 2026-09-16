@@ -177,7 +177,7 @@ img { display: block; max-width: 100%; }
 
 .release-box-lista { display: flex; flex-direction: column; }
 
-.release-box-item {
+.plat-item {
   display: flex;
   align-items: center;
   gap: 13px;
@@ -187,10 +187,10 @@ img { display: block; max-width: 100%; }
   transition: color .15s ease;
 }
 
-.release-box-item + .release-box-item { border-top: 1px solid rgba(255, 255, 255, .08); }
-.release-box-item:hover { color: #fff; }
+.plat-item + .plat-item { border-top: 1px solid rgba(255, 255, 255, .08); }
+.plat-item:hover { color: #fff; }
 
-.release-box-icone {
+.plat-icone {
   width: 19px;
   height: 19px;
   flex-shrink: 0;
@@ -199,9 +199,9 @@ img { display: block; max-width: 100%; }
   transition: opacity .15s ease;
 }
 
-.release-box-item:hover .release-box-icone { opacity: 1; }
+.plat-item:hover .plat-icone { opacity: 1; }
 
-.release-box-nome {
+.plat-nome {
   flex: 1;
   min-width: 0;
   font-family: var(--mono);
@@ -210,7 +210,7 @@ img { display: block; max-width: 100%; }
   text-transform: uppercase;
 }
 
-.release-box-btn {
+.plat-btn {
   flex-shrink: 0;
   font-family: var(--mono);
   font-size: 10px;
@@ -222,7 +222,7 @@ img { display: block; max-width: 100%; }
   transition: background-color .15s ease, color .15s ease, border-color .15s ease;
 }
 
-.release-box-item:hover .release-box-btn {
+.plat-item:hover .plat-btn {
   background: #f2f2ef;
   border-color: #f2f2ef;
   color: #000;
@@ -660,27 +660,13 @@ a.btn-solid { text-decoration: none; display: inline-block; }
 
 .ouvir-lista { display: flex; flex-direction: column; }
 
-.ouvir-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 18px 4px;
-  border-top: 1px solid #1b1b19;
-  text-decoration: none;
-  font-family: var(--mono);
-  font-size: 14px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: #dededa;
-  transition: background-color .15s ease, color .15s ease;
-}
-
-.ouvir-item:last-child { border-bottom: 1px solid #1b1b19; }
-.ouvir-item:hover { background: #0d0d0c; color: #fff; }
-
-.ouvir-acao { color: #6a6a66; font-size: 12px; letter-spacing: .18em; }
-.ouvir-item:hover .ouvir-acao { color: var(--blue-light); }
+/* O painel usa a mesma linha da tarja da capa, um ponto maior */
+.ouvir-lista .plat-item { padding: 15px 2px; gap: 15px; }
+.ouvir-lista .plat-item + .plat-item { border-top-color: #1b1b19; }
+.ouvir-lista .plat-item:last-child { border-bottom: 1px solid #1b1b19; }
+.ouvir-lista .plat-icone { width: 21px; height: 21px; }
+.ouvir-lista .plat-nome { font-size: 13.5px; }
+.ouvir-lista .plat-btn { font-size: 10.5px; padding: 8px 15px; }
 
 /* ---------- MODAL: INTIMAÇÃO ---------- */
 .modal-overlay {

@@ -181,19 +181,44 @@
     // "icone" apontando para um arquivo (logo oficial) tem prioridade
     if (plat.icone && /[./]/.test(plat.icone)) {
       var img = document.createElement("img");
-      img.className = "release-box-icone";
+      img.className = "plat-icone";
       img.src = plat.icone;
       img.alt = "";
       return img;
     }
     var chave = plat.icone || slug(plat.nome);
     var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("class", "release-box-icone");
+    svg.setAttribute("class", "plat-icone");
     svg.setAttribute("viewBox", "0 0 24 24");
     svg.setAttribute("fill", "currentColor");
     svg.setAttribute("aria-hidden", "true");
     svg.innerHTML = ICONES[chave] || ICONES.generico;
     return svg;
+  }
+
+  // Uma linha de plataforma: ícone, nome e botão. A mesma peça serve à tarja da
+  // capa e ao painel "Ouvir em" — o tamanho muda pelo CSS do contexto, não aqui,
+  // para os dois não voltarem a divergir.
+  function linhaPlataforma(plat) {
+    var a = document.createElement("a");
+    a.className = "plat-item";
+    a.href = plat.url || LANC.smartLink;
+    a.target = "_blank";
+    a.rel = "noopener";
+
+    var nome = document.createElement("span");
+    nome.className = "plat-nome";
+    nome.textContent = plat.nome;
+
+    var botao = document.createElement("span");
+    botao.className = "plat-btn";
+    botao.dataset.pt = "Reproduzir";
+    botao.dataset.en = "Play";
+
+    a.appendChild(montarIcone(plat));
+    a.appendChild(nome);
+    a.appendChild(botao);
+    return a;
   }
 
   function buildRelease() {
@@ -211,25 +236,7 @@
     if (lista) {
       (LANC.plataformas || []).forEach(function (plat) {
         if (!plat || !plat.nome) return;
-        var a = document.createElement("a");
-        a.className = "release-box-item";
-        a.href = plat.url || LANC.smartLink;
-        a.target = "_blank";
-        a.rel = "noopener";
-
-        var nome = document.createElement("span");
-        nome.className = "release-box-nome";
-        nome.textContent = plat.nome;
-
-        var botao = document.createElement("span");
-        botao.className = "release-box-btn";
-        botao.dataset.pt = "Reproduzir";
-        botao.dataset.en = "Play";
-
-        a.appendChild(montarIcone(plat));
-        a.appendChild(nome);
-        a.appendChild(botao);
-        lista.appendChild(a);
+        lista.appendChild(linhaPlataforma(plat));
       });
     }
 
@@ -254,23 +261,7 @@
     var lista = ouvirOverlay.querySelector("[data-ouvir-lista]");
     (LANC.plataformas || []).forEach(function (plat) {
       if (!plat || !plat.nome) return;
-      var a = document.createElement("a");
-      a.className = "ouvir-item";
-      a.href = plat.url || LANC.smartLink;
-      a.target = "_blank";
-      a.rel = "noopener";
-
-      var nome = document.createElement("span");
-      nome.textContent = plat.nome;
-
-      var acao = document.createElement("span");
-      acao.className = "ouvir-acao";
-      acao.dataset.pt = "Reproduzir";
-      acao.dataset.en = "Play";
-
-      a.appendChild(nome);
-      a.appendChild(acao);
-      lista.appendChild(a);
+      lista.appendChild(linhaPlataforma(plat));
     });
 
     function abrirOuvir(e) {
